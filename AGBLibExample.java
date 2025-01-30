@@ -62,7 +62,7 @@ public class AGBLibExample {
                     file = input.nextLine(); // Get what the file will be called
                     
                     print("Save what string?");
-                    save.saveVar("savedata/" + file, input.nextLine()); // Saves the next input to the file
+                    save.saveEncryptedVar("savedata/" + file, input.nextLine()); // Saves the next input to the file, encrypted so that it is not readable
 
                     // saveVar() is very generic, and can process variable if you don't know what type to do, but it's better to use saveString(), or saveInt(), or saveDouble()
                     // To load data later, you use loadString(), loadDouble(), loadInt(), etc.
@@ -70,14 +70,24 @@ public class AGBLibExample {
 
                     break; // Break the loop once finished
                 
-                case 3: /// OPENING A WEBSITE
+                case 3: /// LOADING DATA
+
+                    input.nextLine(); // Consume leftover line
+                    print("Load data from what file (in 'savedata' folder)?");
+                    String loadFile = input.nextLine(); // Get input
+                    String load = save.loadEncryptedString("savedata/" + loadFile, "File does not exist");
+                    print("Message from '" + loadFile + "': " + load); // Load the encrypted data; If file is non-existant the default is loaded, which in this case is "File does not exist."
+
+                    break; // Break the loop once finished
+
+                case 4: /// OPENING A WEBSITE
 
                     // Pretty simple. Just do this:
                     web.openWebpage("https://www.google.com/search?q=potato&sca_esv=c7459735fc04b658&udm=2&biw=1920&bih=945&sxsrf=AHTn8zrDFq5i94d-UH3InUCSuEX1a3_mNQ%3A1738187304774&ei=KKKaZ6f-LqmU5OMPwIPmwQ8&ved=0ahUKEwinsuqm9JuLAxUpCnkGHcCBOfgQ4dUDCBQ&uact=5&oq=potato&gs_lp=EgNpbWciBnBvdGF0bzINEAAYgAQYsQMYQxiKBTIOEAAYgAQYsQMYgwEYigUyChAAGIAEGEMYigUyCBAAGIAEGLEDMggQABiABBixAzIIEAAYgAQYsQMyChAAGIAEGEMYigUyCBAAGIAEGLEDMgoQABiABBhDGIoFMggQABiABBixA0jwDVAAWLcLcAB4AJABAJgBVaABxQOqAQE2uAEDyAEA-AEBmAIGoALkA8ICBBAjGCfCAhAQABiABBixAxhDGIMBGIoFmAMAkgcBNqAHhCM&sclient=img#vhid=afHHUFDs6G4XIM&vssid=mosaic");
                     
                     break; // Break the loop once finished
 
-                case 4:
+                case 5:
                     systemRunning = false; // Set systemRunning to false to close program
                     break; // Break the loop once finished
 

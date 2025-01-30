@@ -175,7 +175,14 @@ public class SaveData {
         }
     }
 
-    // TODO: Add saving stuff to file... but encrypted.
+    /**
+     * <p>Saves a String just like saveString(), but encrypts the data making it unreadable to anyone looking at the file. 
+     * <p>You can load the data by using loadEncryptedString().
+     * @param filePath The save path to the file to write to.
+     * @param variable The String to save.
+     * @see saveString()
+     * @see loadEncryptedString()
+     */
     public void saveEncryptedString(String filePath, String variable) {
         try {
             FileWriter writer = new FileWriter(filePath);
@@ -187,6 +194,14 @@ public class SaveData {
         }
     }
 
+    /**
+     * <p>Saves an integer just like saveInt(), but encrypts the data making it unreadable to anyone looking at the file. 
+     * <p>You can load the data by using loadEncryptedInt().
+     * @param filePath The save path to the file to write to.
+     * @param variable The int to save.
+     * @see saveInt()
+     * @see loadEncryptedInt()
+     */
     public void saveEncryptedInt(String filePath, int variable) {
         try {
             FileWriter writer = new FileWriter(filePath);
@@ -198,6 +213,14 @@ public class SaveData {
         }
     }
 
+    /**
+     * <p>Saves a double just like saveDouble(), but encrypts the data making it unreadable to anyone looking at the file. 
+     * <p>You can load the data by using loadEncryptedDouble().
+     * @param filePath The save path to the file to write to.
+     * @param variable The double to save.
+     * @see saveDouble()
+     * @see loadEncryptedDouble()
+     */
     public void saveEncryptedDouble(String filePath, double variable) {
         try {
             FileWriter writer = new FileWriter(filePath);
@@ -209,6 +232,14 @@ public class SaveData {
         }
     }
 
+    /**
+     * <p>Saves a float just like saveFloat(), but encrypts the data making it unreadable to anyone looking at the file. 
+     * <p>You can load the data by using loadEncryptedFloat().
+     * @param filePath The save path to the file to write to.
+     * @param variable The float to save.
+     * @see saveFloat()
+     * @see loadEncryptedFloat()
+     */
     public void saveEncryptedFloat(String filePath, float variable) {
         try {
             FileWriter writer = new FileWriter(filePath);
@@ -220,7 +251,106 @@ public class SaveData {
         }
     }
 
+    /**
+     * <p>Saves a boolean just like saveBoolean(), but encrypts the data making it unreadable to anyone looking at the file. 
+     * <p>You can load the data by using loadEncryptedBoolean().
+     * @param filePath The save path to the file to write to.
+     * @param variable The boolean to save.
+     * @see saveBoolean()
+     * @see loadEncryptedBoolean()
+     */
     public void saveEncryptedBoolean(String filePath, boolean variable) {
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            String encr = encryptString(Boolean.toString(variable));
+            writer.write(encr);
+            writer.close();
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    public void saveEncryptedVar(String filePath, String variable) {
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            String encr = encryptString(variable);
+            writer.write(encr);
+            writer.close();
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * <p>Saves a variable just like saveVar(), but encrypts the data making it unreadable to anyone looking at the file. 
+     * <p>You can load the data by using the correct loading method (ex. loadEncryptedString(), loadEncryptedInt(), etc).
+     * @param filePath The save path to the file to write to.
+     * @param variable The variable to save.
+     * @see saveVar()
+     * @see loadEncryptedString()
+     * @see loadEncryptedInt()
+     */
+    public void saveEncryptedVar(String filePath, int variable) {
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            String encr = encryptString(Integer.toString(variable));
+            writer.write(encr);
+            writer.close();
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * <p>Saves a variable just like saveVar(), but encrypts the data making it unreadable to anyone looking at the file. 
+     * <p>You can load the data by using the correct loading method (ex. loadEncryptedString(), loadEncryptedInt(), etc).
+     * @param filePath The save path to the file to write to.
+     * @param variable The variable to save.
+     * @see saveVar()
+     * @see loadEncryptedString()
+     * @see loadEncryptedInt()
+     */
+    public void saveEncryptedVar(String filePath, double variable) {
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            String encr = encryptString(Double.toString(variable));
+            writer.write(encr);
+            writer.close();
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * <p>Saves a variable just like saveVar(), but encrypts the data making it unreadable to anyone looking at the file. 
+     * <p>You can load the data by using the correct loading method (ex. loadEncryptedString(), loadEncryptedInt(), etc).
+     * @param filePath The save path to the file to write to.
+     * @param variable The variable to save.
+     * @see saveVar()
+     * @see loadEncryptedString()
+     * @see loadEncryptedInt()
+     */
+    public void saveEncryptedVar(String filePath, float variable) {
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            String encr = encryptString(Float.toString(variable));
+            writer.write(encr);
+            writer.close();
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * <p>Saves a variable just like saveVar(), but encrypts the data making it unreadable to anyone looking at the file. 
+     * <p>You can load the data by using the correct loading method (ex. loadEncryptedString(), loadEncryptedInt(), etc).
+     * @param filePath The save path to the file to write to.
+     * @param variable The variable to save.
+     * @see saveVar()
+     * @see loadEncryptedString()
+     * @see loadEncryptedInt()
+     */
+    public void saveEncryptedVar(String filePath, boolean variable) {
         try {
             FileWriter writer = new FileWriter(filePath);
             String encr = encryptString(Boolean.toString(variable));
@@ -353,7 +483,7 @@ public class SaveData {
      * @return The float data from specified file.
      */
     public float loadFloat(String filePath, float def) {
-        float result = 0.0f;
+        float result = def;
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line = reader.readLine();
             result = Float.parseFloat(line);
@@ -396,7 +526,180 @@ public class SaveData {
         return result;
     }
 
-    // TODO: Add loading an encrypted file...
+    /**
+     * Loads a String encrypted by saveEncryptedString().
+     * @param filePath The file path to load from.
+     * @return The unencrypted String data from the specified file.
+     * @see saveEncryptedString()
+     */
+    public String loadEncryptedString(String filePath) {
+        String result = "";
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine();
+            result = unencryptString(line);
+        } catch (IOException | NumberFormatException excp) {
+            excp.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Loads a String encrypted by saveEncryptedString().
+     * @param filePath The file path to load from.
+     * @param def The default value if file does not exist
+     * @return The unencrypted String data from the specified file.
+     * @see saveEncryptedString()
+     */
+    public String loadEncryptedString(String filePath, String def) {
+        String result = def;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine();
+            result = unencryptString(line);
+        } catch (IOException | NumberFormatException excp) {
+            excp.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Loads an int encrypted by saveEncryptedInt().
+     * @param filePath The file path to load from.
+     * @return The unencrypted int data from the specified file.
+     * @see saveEncryptedInt()
+     */
+    public int loadEncryptedInt(String filePath) {
+        int result = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine();
+            result = Integer.parseInt(unencryptString(line));
+        } catch (IOException | NumberFormatException excp) {
+            excp.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Loads an int encrypted by saveEncryptedInt().
+     * @param filePath The file path to load from.
+     * @param def The default value if file does not exist
+     * @return The unencrypted int data from the specified file.
+     * @see saveEncryptedInt()
+     */
+    public int loadEncryptedInt(String filePath, int def) {
+        int result = def;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine();
+            result = Integer.parseInt(unencryptString(line));
+        } catch (IOException | NumberFormatException excp) {
+            excp.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Loads a double encrypted by saveEncryptedDouble().
+     * @param filePath The file path to load from.
+     * @return The unencrypted double data from the specified file.
+     * @see saveEncryptedDouble()
+     */
+    public double loadEncryptedDouble(String filePath) {
+        double result = 0.0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine();
+            result = Double.parseDouble(unencryptString(line));
+        } catch (IOException | NumberFormatException excp) {
+            excp.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Loads a double encrypted by saveEncryptedDouble().
+     * @param filePath The file path to load from.
+     * @param def The default value if file does not exist
+     * @return The unencrypted double data from the specified file.
+     * @see saveEncryptedDouble()
+     */
+    public double loadEncryptedDouble(String filePath, double def) {
+        double result = def;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine();
+            result = Double.parseDouble(unencryptString(line));
+        } catch (IOException | NumberFormatException excp) {
+            excp.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Loads a float encrypted by saveEncryptedFloat().
+     * @param filePath The file path to load from.
+     * @return The unencrypted float data from the specified file.
+     * @see saveEncryptedFloat()
+     */
+    public float loadEncryptedFloat(String filePath) {
+        float result = 0.0f;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine();
+            result = Float.parseFloat(unencryptString(line));
+        } catch (IOException | NumberFormatException excp) {
+            excp.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Loads a float encrypted by saveEncryptedFloat().
+     * @param filePath The file path to load from.
+     * @param def The default value if file does not exist
+     * @return The unencrypted float data from the specified file.
+     * @see saveEncryptedFloat()
+     */
+    public float loadEncryptedFloat(String filePath, float def) {
+        float result = def;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine();
+            result = Float.parseFloat(unencryptString(line));
+        } catch (IOException | NumberFormatException excp) {
+            excp.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Loads a boolean encrypted by saveEncryptedBoolean().
+     * @param filePath The file path to load from.
+     * @return The unencrypted boolean data from the specified file.
+     * @see saveEncryptedBoolean()
+     */
+    public boolean loadEncryptedBoolean(String filePath) {
+        boolean result = false;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine();
+            result = Boolean.parseBoolean(unencryptString(line));
+        } catch (IOException | NumberFormatException excp) {
+            excp.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Loads a boolean encrypted by saveEncryptedBoolean().
+     * @param filePath The file path to load from.
+     * @param def The default value if file does not exist
+     * @return The unencrypted boolean data from the specified file.
+     * @see saveEncryptedBoolean()
+     */
+    public boolean loadEncryptedBoolean(String filePath, boolean def) {
+        boolean result = false;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line = reader.readLine();
+            result = Boolean.parseBoolean(unencryptString(line));
+        } catch (IOException | NumberFormatException excp) {
+            excp.printStackTrace();
+        }
+        return result;
+    }
 
     private String encryptString(String x) {
         StringBuilder encrypted = new StringBuilder(x);
