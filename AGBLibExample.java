@@ -1,4 +1,4 @@
-// This file can be deleted before begining the project, but it shows how to use everything in my library, sooo here we go
+// This file can be deleted before beginning the project, but it shows how to use everything in my library, sooo here we go
 
 // Just like everything else, you need to first import the library and what you're looking for
 import AwesomeGearBoy.lib.AnsiColors;
@@ -30,8 +30,9 @@ public class AGBLibExample {
             
             print("1. Countdown");
             print("2. Save to file");
-            print("3. Open website");
-            print("4. Exit");
+            print("3. Load data");
+            print("4. Open website");
+            print("5. Exit");
             printSl("Make choice (1-4): ");
             choice = input.nextInt(); // Get user's choice
 
