@@ -84,7 +84,7 @@ public class AGBLibExample {
                 case 4: /// OPENING A WEBSITE
 
                     // Pretty simple. Just do this:
-                    web.openWebpage("https://www.google.com/search?q=potato&sca_esv=c7459735fc04b658&udm=2&biw=1920&bih=945&sxsrf=AHTn8zrDFq5i94d-UH3InUCSuEX1a3_mNQ%3A1738187304774&ei=KKKaZ6f-LqmU5OMPwIPmwQ8&ved=0ahUKEwinsuqm9JuLAxUpCnkGHcCBOfgQ4dUDCBQ&uact=5&oq=potato&gs_lp=EgNpbWciBnBvdGF0bzINEAAYgAQYsQMYQxiKBTIOEAAYgAQYsQMYgwEYigUyChAAGIAEGEMYigUyCBAAGIAEGLEDMggQABiABBixAzIIEAAYgAQYsQMyChAAGIAEGEMYigUyCBAAGIAEGLEDMgoQABiABBhDGIoFMggQABiABBixA0jwDVAAWLcLcAB4AJABAJgBVaABxQOqAQE2uAEDyAEA-AEBmAIGoALkA8ICBBAjGCfCAhAQABiABBixAxhDGIMBGIoFmAMAkgcBNqAHhCM&sclient=img#vhid=afHHUFDs6G4XIM&vssid=mosaic");
+                    web.openWebpage("picc.png");
                     
                     break; // Break the loop once finished
 

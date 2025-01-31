@@ -361,6 +361,7 @@ public class SaveData {
         }
     }
 
+    // TODO: Check if file exists in ALL of these
     /**
      * Loads a String data type from a file.
      * @param filePath The file path to load from.
@@ -368,13 +369,19 @@ public class SaveData {
      */
     public String loadString(String filePath) {
         String result = "";
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = line;
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = line;
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -385,13 +392,19 @@ public class SaveData {
      */
     public String loadString(String filePath, String def) {
         String result = def;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = line;
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = line;
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -401,13 +414,19 @@ public class SaveData {
      */
     public int loadInt(String filePath) {
         int result = 0;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Integer.parseInt(line);
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Integer.parseInt(line);
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -418,13 +437,19 @@ public class SaveData {
      */
     public int loadInt(String filePath, int def) {
         int result = def;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Integer.parseInt(line);
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Integer.parseInt(line);
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -434,13 +459,19 @@ public class SaveData {
      */
     public double loadDouble(String filePath) {
         double result = 0.0;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Double.parseDouble(line);
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Double.parseDouble(line);
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -451,13 +482,19 @@ public class SaveData {
      */
     public double loadDouble(String filePath, double def) {
         double result = def;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Double.parseDouble(line);
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Double.parseDouble(line);
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -467,13 +504,19 @@ public class SaveData {
      */
     public float loadFloat(String filePath) {
         float result = 0.0f;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Float.parseFloat(line);
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Float.parseFloat(line);
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -484,13 +527,19 @@ public class SaveData {
      */
     public float loadFloat(String filePath, float def) {
         float result = def;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Float.parseFloat(line);
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Float.parseFloat(line);
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -500,13 +549,19 @@ public class SaveData {
      */
     public boolean loadBoolean(String filePath) {
         boolean result = false;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Boolean.parseBoolean(line);
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Boolean.parseBoolean(line);
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -517,13 +572,19 @@ public class SaveData {
      */
     public boolean loadBoolean(String filePath, boolean def) {
         boolean result = def;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Boolean.parseBoolean(line);
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Boolean.parseBoolean(line);
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -534,13 +595,19 @@ public class SaveData {
      */
     public String loadEncryptedString(String filePath) {
         String result = "";
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = unencryptString(line);
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = unencryptString(line);
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -552,13 +619,19 @@ public class SaveData {
      */
     public String loadEncryptedString(String filePath, String def) {
         String result = def;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = unencryptString(line);
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = unencryptString(line);
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -569,13 +642,19 @@ public class SaveData {
      */
     public int loadEncryptedInt(String filePath) {
         int result = 0;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Integer.parseInt(unencryptString(line));
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Integer.parseInt(unencryptString(line));
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -587,13 +666,19 @@ public class SaveData {
      */
     public int loadEncryptedInt(String filePath, int def) {
         int result = def;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Integer.parseInt(unencryptString(line));
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Integer.parseInt(unencryptString(line));
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -604,13 +689,19 @@ public class SaveData {
      */
     public double loadEncryptedDouble(String filePath) {
         double result = 0.0;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Double.parseDouble(unencryptString(line));
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Double.parseDouble(unencryptString(line));
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -622,13 +713,19 @@ public class SaveData {
      */
     public double loadEncryptedDouble(String filePath, double def) {
         double result = def;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Double.parseDouble(unencryptString(line));
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Double.parseDouble(unencryptString(line));
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -639,13 +736,19 @@ public class SaveData {
      */
     public float loadEncryptedFloat(String filePath) {
         float result = 0.0f;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Float.parseFloat(unencryptString(line));
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Float.parseFloat(unencryptString(line));
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -657,13 +760,19 @@ public class SaveData {
      */
     public float loadEncryptedFloat(String filePath, float def) {
         float result = def;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Float.parseFloat(unencryptString(line));
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Float.parseFloat(unencryptString(line));
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -674,13 +783,19 @@ public class SaveData {
      */
     public boolean loadEncryptedBoolean(String filePath) {
         boolean result = false;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Boolean.parseBoolean(unencryptString(line));
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Boolean.parseBoolean(unencryptString(line));
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     /**
@@ -691,14 +806,20 @@ public class SaveData {
      * @see saveEncryptedBoolean()
      */
     public boolean loadEncryptedBoolean(String filePath, boolean def) {
-        boolean result = false;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line = reader.readLine();
-            result = Boolean.parseBoolean(unencryptString(line));
-        } catch (IOException | NumberFormatException excp) {
-            excp.printStackTrace();
+        boolean result = def;
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line = reader.readLine();
+                result = Boolean.parseBoolean(unencryptString(line));
+            } catch (IOException | NumberFormatException excp) {
+                excp.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
         }
-        return result;
     }
 
     private String encryptString(String x) {
@@ -719,6 +840,8 @@ public class SaveData {
                 encrypted.setCharAt(i, '6');
             } else if (encrypted.charAt(i) == '6') {
                 encrypted.setCharAt(i, '7');
+            } else if (encrypted.charAt(i) == '7') {
+                encrypted.setCharAt(i, '8');
             } else if (encrypted.charAt(i) == '8') {
                 encrypted.setCharAt(i, '9');
             } else if (encrypted.charAt(i) == '9') {
