@@ -1,8 +1,7 @@
 import java.util.*;
-import java.io.*;
 
 import AwesomeGearBoy.lib.*;
-// import classes;      We will need this once we do have classes in the 'classes' folder.
+import classes.*;
 
 public class Main {
     /**
