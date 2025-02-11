@@ -361,7 +361,6 @@ public class SaveData {
         }
     }
 
-    // TODO: Check if file exists in ALL of these
     /**
      * Loads a String data type from a file.
      * @param filePath The file path to load from.
@@ -822,7 +821,12 @@ public class SaveData {
         }
     }
 
-    private String encryptString(String x) {
+    /**
+     * Takes a string in, and then returns an encrypted version of that string.
+     * @param x
+     * @return The encypted string.
+     */
+    public String encryptString(String x) {
         StringBuilder encrypted = new StringBuilder(x);
     
         for (int i = 0; i < encrypted.length(); i++) {
@@ -1024,7 +1028,13 @@ public class SaveData {
         return encrypted.toString();
     }
 
-    private String unencryptString(String x) {
+    /**
+     * <p> Unencrypts an encrypted String (one made from the SaveData class)
+     * <p> String must be encrypted to load correctly.
+     * @param x
+     * @return
+     */
+    public String unencryptString(String x) {
         StringBuilder unencrypted = new StringBuilder(x);
 
         for (int i = 0; i < x.length(); i++) {

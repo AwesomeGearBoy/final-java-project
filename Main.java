@@ -46,11 +46,11 @@ public class Main {
 
     public static void main(String[] args) {
         // Save paths
-        final String FIRST_TIME_RUN_SAVE_PATH = "savedata/3h7fj46.data";
-        final String PASSWORD_SAVE_PATH = "savedata/8c093jl.data";
+        final String FIRST_TIME_RUN_SAVE_PATH = "savedata/system/3h7fj46.data";
+        final String PASSWORD_SAVE_PATH = "savedata/system/8c093jl.data";
 
         // Constant Strings
-        final String ADMIN_PASSWORD = "admin123";
+        final String ADMIN_PASSWORD = "sf,om234";
 
         // Constant Integers
         // Constant Doubles
@@ -98,7 +98,7 @@ public class Main {
                 printSl(ansi.yellow() + ansi.blackBackground() + "Enter password:" + ansi.reset() + " "); // Ask for input
                 inp = input.nextLine(); // Get input
 
-                if (inp.equals(ADMIN_PASSWORD)) { // If admin password is entered, reset password
+                if (inp.equals(save.unencryptString(ADMIN_PASSWORD))) { // If admin password is entered, reset password
                     password = resetPassword();
                 } else if (!inp.equals(password) && !inp.equals(ADMIN_PASSWORD)) { // Else add to counter and print message
                     counter += 1; // Add to counter
@@ -106,7 +106,7 @@ public class Main {
                         print(ansi.red() + ansi.blackBackground() + "Incorrect password entered. " + (6 - counter) + " attempts left." + ansi.reset());
                     }
                 }
-            } while(!inp.equals(password) && !inp.equals(ADMIN_PASSWORD)); // Repeat if input is not equal to password
+            } while(!inp.equals(password) && !inp.equals(save.unencryptString(ADMIN_PASSWORD))); // Repeat if input is not equal to password
         }
 
         // TODO: Main code
@@ -118,7 +118,7 @@ public class Main {
      * @return New password
      */
     private static String resetPassword() {
-        final String PASSWORD_SAVE_PATH = "savedata/8c093jl.data"; // Password save path
+        final String PASSWORD_SAVE_PATH = "savedata/system/8c093jl.data"; // Password save path
         AnsiColors ansi = new AnsiColors(); // Instantiate AnsiColors
         SaveData save = new SaveData(); // Instantiate Savedata
 
