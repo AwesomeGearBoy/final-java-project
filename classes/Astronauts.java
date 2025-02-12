@@ -14,7 +14,7 @@ public class Astronauts {
     String[] children;
     int statis; // (1 = In Space) (2 = On Earth)
 
-    public Astronauts() {
+    public Astronauts(String name, String birthday, int serial, String address, String email, String phone, double payRate, double weight, String[] children, int statis) {
         this.name = name;
         this.birthday = birthday;
         this.serial = serial;
