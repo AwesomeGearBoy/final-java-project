@@ -8,6 +8,7 @@ public class AstroManager {
     final String COUNT_SAVE_PATH = "savedata/astrodata/7dnb39dp.data";
     Scanner input;
     SaveData save = new SaveData();
+    Debug cons;
     Astronauts[] astro = new Astronauts[15];
     int count = save.loadEncryptedInt(COUNT_SAVE_PATH, 0);
 
@@ -15,55 +16,15 @@ public class AstroManager {
         this.input = input;
     }
 
-    /**
-     * Simplifies printing to console.
-     * @param x String to be printed
-     */
-    public static void print() {
-        System.out.println();
-    }
-
-    /**
-     * Simplifies printing to console.
-     * @param x String to be printed
-     */
-    public static void print(String x) {
-        System.out.println(x);
-    }
-
-    /**
-     * Simplifies printing to console.
-     * @param x String to be printed
-     */
-    public static void print(int x) {
-        System.out.println(x);
-    }
-
-    /**
-     * Simplifies printing to console.
-     * @param x String to be printed
-     */
-    public static void printSl(String x) {
-        System.out.print(x);
-    }
-
-    /**
-     * Simplifies printing to console.
-     * @param x String to be printed
-     */
-    public static void printSl(int x) {
-        System.out.print(x);
-    }
-
     public void showMenu() {
         boolean menuRunning = true;
         int choice;
 
         do {
-            print("1. Add an astronaut");
-            print("2. Edit an astronaut");
-            print("3. Delete an astronaut");
-            print("4. Back to main menu");
+            cons.print("1. Add an astronaut");
+            cons.print("2. Edit an astronaut");
+            cons.print("3. Delete an astronaut");
+            cons.print("4. Back to main menu");
             choice = input.nextInt();
 
             switch (choice) {
@@ -80,7 +41,7 @@ public class AstroManager {
                     menuRunning = false;
                     break;
                 default:
-                    print("Invalid option. Please try again.");
+                    cons.print("Invalid option. Please try again.");
                     break;
             }
         } while(menuRunning);
@@ -90,22 +51,22 @@ public class AstroManager {
         Random rand = new Random();
         
         if (count >= astro.length) {
-            print("Astronaut capacity reached.");
+            cons.print("Astronaut capacity reached.");
             return;
         }
     
-        print("Enter new astronaut's name: ");
+        cons.print("Enter new astronaut's name: ");
         String name = input.nextLine();
     
         String birthday;
         while (true) {
-            print("Enter new astronaut's birthday (XX/XX/XXXX): ");
+            cons.print("Enter new astronaut's birthday (XX/XX/XXXX): ");
             birthday = input.nextLine();
     
             if (birthday.matches("\\d{2}/\\d{2}/\\d{4}")) {
                 break;
             } else {
-                print("Your input is invalid. Please try again.");
+                cons.print("Your input is invalid. Please try again.");
             }
         }
         
@@ -114,50 +75,50 @@ public class AstroManager {
             serial = rand.nextInt(10000); // Generates 0000-9999
         } while (serial < 1000);
     
-        print("Enter astronaut's address: ");
+        cons.print("Enter astronaut's address: ");
         String address = input.nextLine();
     
         String email;
         while (true) {
-            print("Enter astronaut's email: ");
+            cons.print("Enter astronaut's email: ");
             email = input.nextLine();
             if (email.contains("@")) {
                 break;
             } else {
-                print("Invalid email. Try again.");
+                cons.print("Invalid email. Try again.");
             }
         }
     
         String phone;
         while (true) {
-            print("Enter astronaut's phone ((XXX)XXX-XXXX): ");
+            cons.print("Enter astronaut's phone ((XXX)XXX-XXXX): ");
             phone = input.nextLine();
             if (phone.matches("\\(\\d{3}\\)\\d{3}-\\d{4}")) {
                 break;
             } else {
-                print("Invalid phone format. Try again.");
+                cons.print("Invalid phone format. Try again.");
             }
         }
     
-        print("Enter astronaut's pay rate (e.g., 1500.50): ");
+        cons.print("Enter astronaut's pay rate (e.g., 1500.50): ");
         double payRate = input.nextDouble();
         input.nextLine(); // Consume newline
     
-        print("Enter astronaut's weight in pounds: ");
+        cons.print("Enter astronaut's weight in pounds: ");
         double weight = input.nextDouble();
         input.nextLine(); // Consume newline
     
-        print("Enter number of children: ");
+        cons.print("Enter number of children: ");
         int numChildren = input.nextInt();
         input.nextLine(); // Consume newline
     
         String[] children = new String[numChildren];
         for (int i = 0; i < numChildren; i++) {
-            print("Enter name of child #" + (i + 1) + ": ");
+            cons.print("Enter name of child #" + (i + 1) + ": ");
             children[i] = input.nextLine();
         }
     
-        print("Enter astronaut's status (1 = In Space, 2 = On Earth): ");
+        cons.print("Enter astronaut's status (1 = In Space, 2 = On Earth): ");
         int statis = input.nextInt();
         input.nextLine(); // Consume newline
     
@@ -172,7 +133,7 @@ public class AstroManager {
         save.saveEncryptedString("savedata/astrodata/astro" + count, phone);
         save.saveEncryptedDouble("savedata/astrodata/astro" + count, payRate);
         save.saveEncryptedDouble("savedata/astrodata/astro" + count, weight);
-        save.saveEncryptedString("savedata/astrodata/astro" + count, children); // TODO: Add arrays to SaveData class.
+        save.saveEncryptedStringArray("savedata/astrodata/astro" + count, children);
         save.saveEncryptedInt("savedata/astrodata/astro" + count, statis);
     }
 

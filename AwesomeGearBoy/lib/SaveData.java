@@ -1,5 +1,7 @@
 package AwesomeGearBoy.lib;
+
 import java.io.*;
+import java.util.*;
 
 /**
  * A class that can save and load data to a file.
@@ -170,6 +172,86 @@ public class SaveData {
             FileWriter writer = new FileWriter(filePath);
             writer.write(Boolean.toString(variable));
             writer.close();
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves a String array to a file, each element on a new line.
+     * @param filePath The save path to the file to write to.
+     * @param data The String array to save.
+     */
+    public void saveStringArray(String filePath, String[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (String line : data) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves an int array to a file, each element on a new line.
+     * @param filePath The save path to the file to write to.
+     * @param data The int array to save.
+     */
+    public void saveIntArray(String filePath, int[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (int num : data) {
+                writer.write(Integer.toString(num));
+                writer.newLine();
+            }
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves a double array to a file, each element on a new line.
+     * @param filePath The save path to the file to write to.
+     * @param data The double array to save.
+     */
+    public void saveDoubleArray(String filePath, double[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (double num : data) {
+                writer.write(Double.toString(num));
+                writer.newLine();
+            }
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves a double array to a file, each element on a new line.
+     * @param filePath The save path to the file to write to.
+     * @param data The double array to save.
+     */
+    public void saveFloatArray(String filePath, float[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (float num : data) {
+                writer.write(Float.toString(num));
+                writer.newLine();
+            }
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves a boolean array to a file, each element on a new line.
+     * @param filePath The save path to the file to write to.
+     * @param data The boolean array to save.
+     */
+    public void saveBooleanArray(String filePath, boolean[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (boolean value : data) {
+                writer.write(Boolean.toString(value));
+                writer.newLine();
+            }
         } catch (IOException excp) {
             excp.printStackTrace();
         }
@@ -356,6 +438,86 @@ public class SaveData {
             String encr = encryptString(Boolean.toString(variable));
             writer.write(encr);
             writer.close();
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves a String array to a file, each element on a new line.
+     * @param filePath The save path to the file to write to.
+     * @param data The String array to save.
+     */
+    public void saveEncryptedStringArray(String filePath, String[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (String line : data) {
+                writer.write(encryptString(line));
+                writer.newLine();
+            }
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves an int array to a file, each element on a new line.
+     * @param filePath The save path to the file to write to.
+     * @param data The int array to save.
+     */
+    public void saveEncryptedIntArray(String filePath, int[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (int num : data) {
+                writer.write(encryptString(Integer.toString(num)));
+                writer.newLine();
+            }
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves a double array to a file, each element on a new line.
+     * @param filePath The save path to the file to write to.
+     * @param data The double array to save.
+     */
+    public void saveEncryptedDoubleArray(String filePath, double[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (double num : data) {
+                writer.write(encryptString(Double.toString(num)));
+                writer.newLine();
+            }
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves a double array to a file, each element on a new line.
+     * @param filePath The save path to the file to write to.
+     * @param data The double array to save.
+     */
+    public void saveEncryptedFloatArray(String filePath, float[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (float num : data) {
+                writer.write(encryptString(Float.toString(num)));
+                writer.newLine();
+            }
+        } catch (IOException excp) {
+            excp.printStackTrace();
+        }
+    }
+
+    /**
+     * Saves a boolean array to a file, each element on a new line.
+     * @param filePath The save path to the file to write to.
+     * @param data The boolean array to save.
+     */
+    public void saveEncryptedBooleanArray(String filePath, boolean[] data) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (boolean value : data) {
+                writer.write(encryptString(Boolean.toString(value)));
+                writer.newLine();
+            }
         } catch (IOException excp) {
             excp.printStackTrace();
         }
@@ -584,6 +746,337 @@ public class SaveData {
         } else {
             return result;
         }
+    }
+
+    /**
+     * Loads a String array from a file.
+     * @param filePath The file path to load from.
+     * @return The String array containing file data.
+     */
+    public String[] loadStringArray(String filePath) {
+        String[] result = { "" };
+        File file = new File(filePath);
+
+        List<String> lines = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return lines.toArray(new String[0]);
+    }
+
+    /**
+     * Loads a String array from a file.
+     * @param filePath The file path to load from.
+     * @param def The default array if file does not exist.
+     * @return The String array containing file data.
+     */
+    public String[] loadStringArray(String filePath, String[] def) {
+        String[] result = def;
+        File file = new File(filePath);
+
+        List<String> lines = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return lines.toArray(new String[0]);
+    }
+
+    /**
+     * Loads an int array from a file.
+     * @param filePath The file path to load from.
+     * @return The int array containing file data.
+     */
+    public int[] loadIntArray(String filePath) {
+        int[] result = { 0 };
+        File file = new File(filePath);
+
+        List<Integer> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Integer.parseInt(line.trim()));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return numbers.stream().mapToInt(i -> i).toArray();
+    }
+
+    /**
+     * Loads an int array from a file.
+     * @param filePath The file path to load from.
+     * @param def The default array if file does not exist.
+     * @return The int array containing file data.
+     */
+    public int[] loadIntArray(String filePath, int[] def) {
+        int[] result = def;
+        File file = new File(filePath);
+
+        List<Integer> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Integer.parseInt(line.trim()));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return numbers.stream().mapToInt(i -> i).toArray();
+    }
+
+    /**
+     * Loads a double array from a file.
+     * @param filePath The file path to load from.
+     * @return The double array containing file data.
+     */
+    public double[] loadDoubleArray(String filePath) {
+        double[] result = { 0.0 };
+        File file = new File(filePath);
+
+        List<Double> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Double.parseDouble(line.trim()));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return numbers.stream().mapToDouble(d -> d).toArray();
+    }
+
+    /**
+     * Loads a double array from a file.
+     * @param filePath The file path to load from.
+     * @param def The default array if file does not exist.
+     * @return The double array containing file data.
+     */
+    public double[] loadDoubleArray(String filePath, double[] def) {
+        double[] result = def;
+        File file = new File(filePath);
+
+        List<Double> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Double.parseDouble(line.trim()));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return numbers.stream().mapToDouble(d -> d).toArray();
+    }
+
+    /**
+     * Loads a float array from a file.
+     * @param filePath The file path to load from.
+     * @return The float array containing file data.
+     */
+    public float[] loadFloatArray(String filePath) {
+        float[] def = { 0.0f };
+        File file = new File(filePath);
+
+        List<Float> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Float.parseFloat(line.trim()));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return def;
+            }
+        }
+
+        float[] result = new float[numbers.size()];
+        for (int i = 0; i < numbers.size(); i++) {
+            result[i] = numbers.get(i);
+        }
+
+        return result;
+    }
+
+    /**
+     * Loads a float array from a file.
+     * @param filePath The file path to load from.
+     * @param def The default array if the file does not exist.
+     * @return The float array containing file data.
+     */
+    public float[] loadFloatArray(String filePath, float[] def) {
+        File file = new File(filePath);
+
+        List<Float> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Float.parseFloat(line.trim()));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return def;
+            }
+        }
+
+        float[] result = new float[numbers.size()];
+        for (int i = 0; i < numbers.size(); i++) {
+            result[i] = numbers.get(i);
+        }
+
+        return result;
+    }
+
+    /**
+     * Loads a boolean array from a file.
+     * @param filePath The file path to load from.
+     * @return The boolean array containing file data or the default array if the file does not exist.
+     */
+    public boolean[] loadBooleanArray(String filePath) {
+        boolean[] def = { false };
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            return def;
+        }
+
+        List<Boolean> values = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    values.add(Boolean.parseBoolean(line.trim()));
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return def;
+            }
+        } else {
+            return def;
+        }
+
+        boolean[] result = new boolean[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            result[i] = values.get(i);
+        }
+
+        return result;
+    }
+
+    /**
+     * Loads a boolean array from a file.
+     * @param filePath The file path to load from.
+     * @param def The default array if the file does not exist.
+     * @return The boolean array containing file data or the default array if the file does not exist.
+     */
+    public boolean[] loadBooleanArray(String filePath, boolean[] def) {
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            return def;
+        }
+
+        List<Boolean> values = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    values.add(Boolean.parseBoolean(line.trim()));
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return def;
+            }
+        } else {
+            return def;
+        }
+
+        boolean[] result = new boolean[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            result[i] = values.get(i);
+        }
+
+        return result;
     }
 
     /**
@@ -819,6 +1312,337 @@ public class SaveData {
         } else {
             return result;
         }
+    }
+
+    /**
+     * Loads a String array from a file.
+     * @param filePath The file path to load from.
+     * @return The String array containing file data.
+     */
+    public String[] loadEncryptedStringArray(String filePath) {
+        String[] result = { "" };
+        File file = new File(filePath);
+
+        List<String> lines = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(unencryptString(line));
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return lines.toArray(new String[0]);
+    }
+
+    /**
+     * Loads a String array from a file.
+     * @param filePath The file path to load from.
+     * @param def The default array if file does not exist.
+     * @return The String array containing file data.
+     */
+    public String[] loadEncryptedStringArray(String filePath, String[] def) {
+        String[] result = def;
+        File file = new File(filePath);
+
+        List<String> lines = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(unencryptString(line));
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return lines.toArray(new String[0]);
+    }
+
+    /**
+     * Loads an int array from a file.
+     * @param filePath The file path to load from.
+     * @return The int array containing file data.
+     */
+    public int[] loadEncryptedIntArray(String filePath) {
+        int[] result = { 0 };
+        File file = new File(filePath);
+
+        List<Integer> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Integer.parseInt(unencryptString(line.trim())));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return numbers.stream().mapToInt(i -> i).toArray();
+    }
+
+    /**
+     * Loads an int array from a file.
+     * @param filePath The file path to load from.
+     * @param def The default array if file does not exist.
+     * @return The int array containing file data.
+     */
+    public int[] loadEncryptedIntArray(String filePath, int[] def) {
+        int[] result = def;
+        File file = new File(filePath);
+
+        List<Integer> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Integer.parseInt(unencryptString(line.trim())));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return numbers.stream().mapToInt(i -> i).toArray();
+    }
+
+    /**
+     * Loads a double array from a file.
+     * @param filePath The file path to load from.
+     * @return The double array containing file data.
+     */
+    public double[] loadEncryptedDoubleArray(String filePath) {
+        double[] result = { 0.0 };
+        File file = new File(filePath);
+
+        List<Double> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Double.parseDouble(unencryptString(line.trim())));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return numbers.stream().mapToDouble(d -> d).toArray();
+    }
+
+    /**
+     * Loads a double array from a file.
+     * @param filePath The file path to load from.
+     * @param def The default array if file does not exist.
+     * @return The double array containing file data.
+     */
+    public double[] loadEncryptedDoubleArray(String filePath, double[] def) {
+        double[] result = def;
+        File file = new File(filePath);
+
+        List<Double> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Double.parseDouble(unencryptString(line.trim())));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return result;
+            }
+        } else {
+            return result;
+        }
+
+        return numbers.stream().mapToDouble(d -> d).toArray();
+    }
+
+    /**
+     * Loads a float array from a file.
+     * @param filePath The file path to load from.
+     * @return The float array containing file data.
+     */
+    public float[] loadEncryptedFloatArray(String filePath) {
+        float[] def = { 0.0f };
+        File file = new File(filePath);
+
+        List<Float> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Float.parseFloat(unencryptString(line.trim())));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return def;
+            }
+        }
+
+        float[] result = new float[numbers.size()];
+        for (int i = 0; i < numbers.size(); i++) {
+            result[i] = numbers.get(i);
+        }
+
+        return result;
+    }
+
+    /**
+     * Loads a float array from a file.
+     * @param filePath The file path to load from.
+     * @param def The default array if the file does not exist.
+     * @return The float array containing file data.
+     */
+    public float[] loadEncryptedFloatArray(String filePath, float[] def) {
+        File file = new File(filePath);
+
+        List<Float> numbers = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        numbers.add(Float.parseFloat(unencryptString(line.trim())));
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid number: " + line);
+                    }
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return def;
+            }
+        }
+
+        float[] result = new float[numbers.size()];
+        for (int i = 0; i < numbers.size(); i++) {
+            result[i] = numbers.get(i);
+        }
+
+        return result;
+    }
+
+    /**
+     * Loads a boolean array from a file.
+     * @param filePath The file path to load from.
+     * @return The boolean array containing file data or the default array if the file does not exist.
+     */
+    public boolean[] loadEncryptedBooleanArray(String filePath) {
+        boolean[] def = { false };
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            return def;
+        }
+
+        List<Boolean> values = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    values.add(Boolean.parseBoolean(unencryptString(line.trim())));
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return def;
+            }
+        } else {
+            return def;
+        }
+
+        boolean[] result = new boolean[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            result[i] = values.get(i);
+        }
+
+        return result;
+    }
+
+    /**
+     * Loads a boolean array from a file.
+     * @param filePath The file path to load from.
+     * @param def The default array if the file does not exist.
+     * @return The boolean array containing file data or the default array if the file does not exist.
+     */
+    public boolean[] loadEncryptedBooleanArray(String filePath, boolean[] def) {
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            return def;
+        }
+
+        List<Boolean> values = new ArrayList<>();
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    values.add(Boolean.parseBoolean(unencryptString(line.trim())));
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+                return def;
+            }
+        } else {
+            return def;
+        }
+
+        boolean[] result = new boolean[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            result[i] = values.get(i);
+        }
+
+        return result;
     }
 
     /**
