@@ -1,18 +1,35 @@
 package classes;
+
 import java.util.*;
 
+import AwesomeGearBoy.lib.*;
+
 public class SpaceshipManager   {
-    public static void main(String[] args)  {
 
+        final String COUNT_SAVE_PATH = "savedata/shipdata/7dnb39dp.data";
+        Scanner input;
+        SaveData save = new SaveData();
+        Debug cons;
+        int count = save.loadEncryptedInt(COUNT_SAVE_PATH, 0);
         Spaceships[] spaceships = new Spaceships[10];
-        Scanner input = new Scanner(System.in);
-        System.out.println("Welcome to the Spaceship Manager.");
-        int choice;
-        int count = 0;  // For number of spaceships, makes sure it doesn't make too many
 
+
+    public SpaceshipManager(Scanner input)  {
+        this.input = input;
+    }
+        
+        
+        public void showMenu() {
+            boolean menuRunning = true;
+            int choice;
+        
+        
         do{
-            System.out.println("\nMenu:");
-            System.out.println();   // TODO: Add options
+            cons.print("Welcome to the Spaceship Manager.");
+            cons.print("1. Add a spaceship");
+            cons.print("2. Edit a spaceship");
+            cons.print("3. Delete a spaceship");
+            cons.print("4. Back to main menu");         // TODO: Fix options
             choice = input.nextInt();
 
             if(choice > 4 || choice < 1)    {
@@ -24,7 +41,7 @@ public class SpaceshipManager   {
 
                 case 1:
                     // TODO: Add spaceship
-                    
+                    addSpaceship();
                     break;
                 case 2:
                     // TODO: Assign Astronauts
@@ -36,12 +53,36 @@ public class SpaceshipManager   {
                     break;
                 case 4:
                     // TODO: Fuel spaceship
-
+                    fuelSpaceship();
                     break;
             }
             
-        }   while(choice != 4);     // Using 4 for now, can change
-
-input.close();
+        }   while(menuRunning);     // Using this to keep error away for now
 }
+
+        public void addSpaceship()   {
+            // TODO: Add spaceship
+
+            if(count >= spaceships.length)  {
+                cons.print("Spaceship capcity has been exceeded.");
+                return;
+            }
+
+            cons.print("Enter new spaceship name: ");
+            String shipName = input.nextLine();
+
+            cons.print("Enter the fuelcapcity(lbs): ");
+            int fuelCapacity = input.nextInt();
+
+            
+
+        }
+
+        public void fuelSpaceship()  {
+
+            cons.print("Please select a ship to fuel.");
+
+            
+
+        }
 }
