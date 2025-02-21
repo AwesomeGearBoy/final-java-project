@@ -164,8 +164,9 @@ public class AstroManager {
         astro[count] = true;
         save.saveEncryptedBooleanArray(ASTRO_SAVE_PATH, astro);
     
+        count++;
         // Save astronaut details
-        String basePath = "savedata/astrodata/astro" + count;
+        String basePath = "savedata/astrodata/astro" + count + "/";
         save.saveEncryptedString(basePath + NAME_SAVE_PATH, name);
         save.saveEncryptedString(basePath + BIRTHDAY_SAVE_PATH, birthday);
         save.saveEncryptedInt(basePath + SERIAL_SAVE_PATH, serial);
@@ -287,7 +288,8 @@ public class AstroManager {
         int statis = input.nextInt();
         input.nextLine(); // Consume newline
 
-        String basePath = "savedata/astrodata/astro" + count;
+        count++;
+        String basePath = "savedata/astrodata/astro" + count + "/";
         save.saveEncryptedString(basePath + NAME_SAVE_PATH, name);
         save.saveEncryptedString(basePath + BIRTHDAY_SAVE_PATH, birthday);
         save.saveEncryptedInt(basePath + SERIAL_SAVE_PATH, serial);
@@ -335,7 +337,8 @@ public class AstroManager {
         astro[count] = false;
         save.saveEncryptedBooleanArray(ASTRO_SAVE_PATH, astro);
 
-        String basePath = "savedata/astrodata/astro" + count;
+        count++;
+        String basePath = "savedata/astrodata/astro" + count + "/";
         save.saveEncryptedString(basePath + NAME_SAVE_PATH, "");
         save.saveEncryptedString(basePath + BIRTHDAY_SAVE_PATH, "");
         save.saveEncryptedInt(basePath + SERIAL_SAVE_PATH, 1234);

@@ -70,8 +70,39 @@ public class Main {
             } while(!inp.equals(password) && !inp.equals(save.unencryptString(ADMIN_PASSWORD))); // Repeat if input is not equal to password
         }
 
-        // TODO: Main code
-        cons.print("Main code here!");
+        do {
+            int choice;
+            cons.print("Please make a selection for what to do:");
+            cons.print("1. Astronauts menu");
+            cons.print("2. Spaceship menu");
+            cons.print("3. Quit program");
+            cons.printSl("Please make a selection: ");
+
+            while (!input.hasNextInt()) {  // Validate integer input
+                cons.printSl("Invalid input. Please make a selection:");
+                input.next(); // Consume invalid input
+            }
+            choice = input.nextInt();
+            input.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    AstroManager astro = new AstroManager(input, cons);
+                    astro.showMenu();
+                    break;
+                case 2:
+                    // TODO: This option...
+                    cons.print("Spaceship manager here...");
+                    break;
+                case 3:
+                    input.close();
+                    System.exit(0);
+                    break;
+                default:
+                    cons.print("Invalid option. Please try again.");
+                    break;
+            }
+        } while (true);
     }
 
     /**
