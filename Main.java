@@ -4,46 +4,6 @@ import AwesomeGearBoy.lib.*;
 import classes.*;
 
 public class Main {
-    /**
-     * Simplifies printing to console.
-     * @param x String to be printed
-     */
-    public static void print() {
-        System.out.println();
-    }
-
-    /**
-     * Simplifies printing to console.
-     * @param x String to be printed
-     */
-    public static void print(String x) {
-        System.out.println(x);
-    }
-
-    /**
-     * Simplifies printing to console.
-     * @param x String to be printed
-     */
-    public static void print(int x) {
-        System.out.println(x);
-    }
-
-    /**
-     * Simplifies printing to console.
-     * @param x String to be printed
-     */
-    public static void printSl(String x) {
-        System.out.print(x);
-    }
-
-    /**
-     * Simplifies printing to console.
-     * @param x String to be printed
-     */
-    public static void printSl(int x) {
-        System.out.print(x);
-    }
-
     public static void main(String[] args) {
         // Save paths
         final String FIRST_TIME_RUN_SAVE_PATH = "savedata/system/3h7fj46.data";
@@ -58,6 +18,7 @@ public class Main {
         // Constant Booleans
 
         // Drewski's library
+        ConsoleManager cons = new ConsoleManager();
         AnsiColors ansi = new AnsiColors();
         SaveData save = new SaveData();
         SleepTime sleep = new SleepTime();
@@ -87,15 +48,15 @@ public class Main {
 
             do {
                 if (counter >= 6) { // If five attempts are passed, close the program
-                    print(ansi.red() + ansi.blackBackground() + "Too many attempts!" + ansi.reset());
+                    cons.print(ansi.red() + ansi.blackBackground() + "Too many attempts!" + ansi.reset());
                     sleep.sleep(800); // Let them read the mistake they've made
-                    print(ansi.red() + ansi.blackBackground() + "Closing program..." + ansi.reset());
+                    cons.print(ansi.red() + ansi.blackBackground() + "Closing program..." + ansi.reset());
                     input.close(); // Close input
                     System.exit(0); // Exit program
                 }
 
-                print("Password: " + password); // TODO: Delete this eventually!
-                printSl(ansi.yellow() + ansi.blackBackground() + "Enter password:" + ansi.reset() + " "); // Ask for input
+                cons.print("Password: " + password); // TODO: Delete this eventually!
+                cons.printSl(ansi.yellow() + ansi.blackBackground() + "Enter password:" + ansi.reset() + " "); // Ask for input
                 inp = input.nextLine(); // Get input
 
                 if (inp.equals(save.unencryptString(ADMIN_PASSWORD))) { // If admin password is entered, reset password
@@ -103,14 +64,14 @@ public class Main {
                 } else if (!inp.equals(password) && !inp.equals(ADMIN_PASSWORD)) { // Else add to counter and print message
                     counter += 1; // Add to counter
                     if (counter < 6) { // Only print attempts if there are attempts left
-                        print(ansi.red() + ansi.blackBackground() + "Incorrect password entered. " + (6 - counter) + " attempts left." + ansi.reset());
+                        cons.print(ansi.red() + ansi.blackBackground() + "Incorrect password entered. " + (6 - counter) + " attempts left." + ansi.reset());
                     }
                 }
             } while(!inp.equals(password) && !inp.equals(save.unencryptString(ADMIN_PASSWORD))); // Repeat if input is not equal to password
         }
 
         // TODO: Main code
-        print("Main code here!");
+        cons.print("Main code here!");
     }
 
     /**
@@ -118,6 +79,7 @@ public class Main {
      * @return New password
      */
     private static String resetPassword() {
+        ConsoleManager cons = new ConsoleManager();
         final String PASSWORD_SAVE_PATH = "savedata/system/8c093jl.data"; // Password save path
         AnsiColors ansi = new AnsiColors(); // Instantiate AnsiColors
         SaveData save = new SaveData(); // Instantiate Savedata
@@ -125,7 +87,7 @@ public class Main {
         String newPassword = randomizePassword(); // Randomizes the new password
 
         // Print out new password so that user can write it down.
-        print(ansi.red() + ansi.blackBackground() + "PASSWORD TO PROGRAM (MAKE SURE TO WRITE DOWN): " + ansi.purple() + newPassword + ansi.reset());
+        cons.print(ansi.red() + ansi.blackBackground() + "PASSWORD TO PROGRAM (MAKE SURE TO WRITE DOWN): " + ansi.purple() + newPassword + ansi.reset());
         
         save.saveEncryptedString(PASSWORD_SAVE_PATH, newPassword); // Save new password to file
         return newPassword; // Return new password

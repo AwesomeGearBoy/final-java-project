@@ -19,7 +19,7 @@ package AwesomeGearBoy.lib;
  * 
  * <p> Enjoy using the easy way to print!
  */
-public class Debug {
+public class ConsoleManager {
     /**
      * Simplifies printing to console.
      * @param x String to be printed
