@@ -1,15 +1,15 @@
 package classes;
-
 import java.util.*;
-
 import AwesomeGearBoy.lib.*;
+
+
 
 public class SpaceshipManager   {
 
-        final String COUNT_SAVE_PATH = "savedata/shipdata/7dnb39dp.data";
+        final String COUNT_SAVE_PATH = "savedata/shipdata/ ";
         Scanner input;
         SaveData save = new SaveData();
-        Debug cons;
+        ConsoleManager cons;
         int count = save.loadEncryptedInt(COUNT_SAVE_PATH, 0);
         Spaceships[] spaceships = new Spaceships[10];
 
@@ -27,7 +27,7 @@ public class SpaceshipManager   {
         do{
             cons.print("Welcome to the Spaceship Manager.");
             cons.print("1. Add a spaceship");
-            cons.print("2. Edit a spaceship");
+            cons.print("2. Assign astronauts");
             cons.print("3. Delete a spaceship");
             cons.print("4. Back to main menu");         // TODO: Fix options
             choice = input.nextInt();
@@ -40,7 +40,7 @@ public class SpaceshipManager   {
             switch(choice)  {
 
                 case 1:
-                    // TODO: Add spaceship
+                    // TODO: Edit addS paceship
                     addSpaceship();
                     break;
                 case 2:
@@ -48,11 +48,11 @@ public class SpaceshipManager   {
 
                     break;
                 case 3:
-                    // TODO: Delete spaceship
-
+                    // TODO: Edit deleteSpaceship
+                    deleteSpaceship();
                     break;
                 case 4:
-                    // TODO: Fuel spaceship
+                    // TODO: Edit fuelSpaceship
                     fuelSpaceship();
                     break;
             }
@@ -78,9 +78,22 @@ public class SpaceshipManager   {
 
         }
 
+        public void deleteSpaceship()   {
+            if(count <= 0)  {
+                cons.print("Cannot delete spaceships.");
+            }
+
+            cons.print("Select a spaceship to delete (1-10).");
+            cons.print();       //  TODO: array list of ships
+            s = input.nextLine();        //  TODO: add input varible 
+        }
+
         public void fuelSpaceship()  {
 
-            cons.print("Please select a ship to fuel.");
+            cons.print("Please select a ship to fuel (1-10).");
+            for(int i = 0; i < spaceships.size(); i++)
+            cons.print();       //  TODO: array list of ships
+            s = input.nextLine();        // TODO: add the input varible
 
             
 
