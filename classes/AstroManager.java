@@ -352,4 +352,9 @@ public class AstroManager {
 
         cons.print("Astronaut #" + count + " has been deleted.");
     }
+
+    public boolean[] getAstronauts() {
+        boolean[] astro = save.loadEncryptedBooleanArray(ASTRO_SAVE_PATH, defaultAstro);
+        return astro;
+    }
 }
