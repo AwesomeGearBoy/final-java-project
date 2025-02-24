@@ -341,15 +341,15 @@ public class AstroManager {
         String basePath = "savedata/astrodata/astro" + count + "/";
         save.saveEncryptedString(basePath + NAME_SAVE_PATH, "");
         save.saveEncryptedString(basePath + BIRTHDAY_SAVE_PATH, "");
-        save.saveEncryptedInt(basePath + SERIAL_SAVE_PATH, 1234);
+        save.saveEncryptedInt(basePath + SERIAL_SAVE_PATH, 0);
         save.saveEncryptedString(basePath + ADDRESS_SAVE_PATH, "");
         save.saveEncryptedString(basePath + EMAIL_SAVE_PATH, "");
         save.saveEncryptedString(basePath + PHONE_SAVE_PATH, "");
-        save.saveEncryptedDouble(basePath + PAY_RATE_SAVE_PATH, 12.34);
-        save.saveEncryptedDouble(basePath + WEIGHT_SAVE_PATH, 12.34);
+        save.saveEncryptedDouble(basePath + PAY_RATE_SAVE_PATH, 0);
+        save.saveEncryptedDouble(basePath + WEIGHT_SAVE_PATH, 0);
         save.saveEncryptedStringArray(basePath + CHILDREN_SAVE_PATH, new String[0]);
-        save.saveEncryptedInt(basePath + STATIS_SAVE_PATH, 1234);
+        save.saveEncryptedInt(basePath + STATIS_SAVE_PATH, 0);
 
-        cons.print("Astronaut #" + (count + 1) + " has been deleted.");
+        cons.print("Astronaut #" + count + " has been deleted.");
     }
 }
