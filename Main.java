@@ -79,7 +79,7 @@ public class Main {
             cons.printSl("Please make a selection: ");
 
             while (!input.hasNextInt()) {  // Validate integer input
-                cons.printSl("Invalid input. Please make a selection:");
+                cons.printSl("Invalid input. Please make a selection: ");
                 input.next(); // Consume invalid input
             }
             choice = input.nextInt();
@@ -91,10 +91,11 @@ public class Main {
                     astro.showMenu();
                     break;
                 case 2:
-                    // TODO: This option...
-                    cons.print("Spaceship manager here...");
+                    SpaceshipManager ship = new SpaceshipManager(input, cons);
+                    ship.showMenu();
                     break;
                 case 3:
+                    cons.print("Goodbye!");
                     input.close();
                     System.exit(0);
                     break;

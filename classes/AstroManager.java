@@ -31,10 +31,12 @@ public class AstroManager {
         int choice;
     
         do {
+            cons.print("Welcome to the astronaut manager.");
             cons.print("1. Add an astronaut");
             cons.print("2. Edit an astronaut");
             cons.print("3. Delete an astronaut");
             cons.print("4. Back to main menu");
+            cons.printSl("Make selection (1-4): ");
     
             while (!input.hasNextInt()) {  // Validate integer input
                 cons.print("Invalid input. Please enter a number.");
