@@ -35,7 +35,8 @@ public class SpaceshipManager   {
             cons.print("2. Assign astronauts");
             cons.print("3. Delete a spaceship");
             cons.print("4. Fuel a spaceship"); 
-            cons.print("5. Back to main menu");
+            cons.print("5. Launch a spaceship");
+            cons.print("6. Back to main menu");
             cons.printSl("Please make a selection: ");
 
             while (!input.hasNextInt()) {  // Validate integer input
@@ -59,13 +60,16 @@ public class SpaceshipManager   {
                     fuelSpaceship();
                     break;
                 case 5:
+                    launchSpaceship();
+                    break;
+                case 6:
                     menuRunning = false;
                     break;
                 default:
                     cons.print("Invalid option. Please try again.");
                     break;
-            }                    // Error fixed :) - Drewski
-        }   while(menuRunning);     // Using this to keep error away for now
+            }
+        }   while(menuRunning);
     }
 
     private void addSpaceship() {
@@ -242,7 +246,6 @@ public class SpaceshipManager   {
         cons.print(astroCount + " astronauts successfully assigned to Ship #" + (shipIndex + 1) + "!");
     }    
 
-    // TODO: Ask for confirmation
     private void deleteSpaceship() {
         boolean[] ships = save.loadEncryptedBooleanArray(SHIP_SAVE_PATH, defaultSpaceship);
     
@@ -272,32 +275,40 @@ public class SpaceshipManager   {
             return;
         }
     
-        // Mark spaceship as deleted
-        ships[shipIndex] = false;
-        save.saveEncryptedBooleanArray(SHIP_SAVE_PATH, ships);
-    
-        // Prepare paths for deletion
-        String basePath = "savedata/shipdata/ship" + (shipIndex + 1) + "/";
-        int numbAstroAssigned = save.loadEncryptedInt(NUMBER_OF_ASTRONAUTS_ASSIGNED_SAVE_PATH, 0);
-        boolean[] assigned = save.loadEncryptedBooleanArray(ASSIGNED_SAVE_PATH, defaultAssigned);
-        int[] astronauts = save.loadEncryptedIntArray(basePath + ASTRONAUTS_SAVE_PATH, new int[0]); // Default to empty array
-    
-        // Unassign astronauts from this spaceship
-        for (int astroNum : astronauts) {
-            assigned[astroNum] = false;
-            numbAstroAssigned--;
+        cons.print("Are you sure you want to delete Ship #" + (shipIndex + 1) + "? (y/n)");
+        String confirmation = input.nextLine().toLowerCase();
+        if (confirmation.equals("y")) {
+            // Mark spaceship as deleted
+            ships[shipIndex] = false;
+            save.saveEncryptedBooleanArray(SHIP_SAVE_PATH, ships);
+        
+            // Prepare paths for deletion
+            String basePath = "savedata/shipdata/ship" + (shipIndex + 1) + "/";
+            int numbAstroAssigned = save.loadEncryptedInt(NUMBER_OF_ASTRONAUTS_ASSIGNED_SAVE_PATH, 0);
+            boolean[] assigned = save.loadEncryptedBooleanArray(ASSIGNED_SAVE_PATH, defaultAssigned);
+            int[] astronauts = save.loadEncryptedIntArray(basePath + ASTRONAUTS_SAVE_PATH, new int[0]); // Default to empty array
+        
+            // Unassign astronauts from this spaceship
+            for (int astroNum : astronauts) {
+                if (astroNum >= 0 && astroNum < assigned.length) {
+                    assigned[astroNum] = false;
+                }
+                numbAstroAssigned--;
+            }
+        
+            // Save updated astronaut assignments
+            save.saveEncryptedInt(NUMBER_OF_ASTRONAUTS_ASSIGNED_SAVE_PATH, numbAstroAssigned);
+            save.saveEncryptedBooleanArray(ASSIGNED_SAVE_PATH, assigned);
+        
+            // Clear spaceship data
+            save.saveEncryptedIntArray(basePath + ASTRONAUTS_SAVE_PATH, new int[0]);
+            save.saveEncryptedString(basePath + NAME_SAVE_PATH, "");
+            save.saveEncryptedDouble(basePath + CAPACITY_SAVE_PATH, 0.0);
+        
+            cons.print("Spaceship #" + (shipIndex + 1) + " has been deleted.");
+        } else {
+            cons.print("Deletion cancelled.");
         }
-    
-        // Save updated astronaut assignments
-        save.saveEncryptedInt(NUMBER_OF_ASTRONAUTS_ASSIGNED_SAVE_PATH, numbAstroAssigned);
-        save.saveEncryptedBooleanArray(ASSIGNED_SAVE_PATH, assigned);
-    
-        // Clear spaceship data
-        save.saveEncryptedIntArray(basePath + ASTRONAUTS_SAVE_PATH, new int[0]);
-        save.saveEncryptedString(basePath + NAME_SAVE_PATH, "");
-        save.saveEncryptedDouble(basePath + CAPACITY_SAVE_PATH, 0.0);
-    
-        cons.print("Spaceship #" + (shipIndex + 1) + " has been deleted.");
     }    
 
     private void fuelSpaceship()  {
@@ -350,7 +361,12 @@ public class SpaceshipManager   {
                 fuel = input.nextDouble() + currentFuel;
     
                 if (fuel > shipCapacity) {
+                    if (fuel + currentFuel > shipCapacity) {
+                        cons.print("Too much fuel! Maximum capacity: " + (shipCapacity - currentFuel) + " lbs.");
+                        return; // Or ask the user to re-enter the amount
+                    }
                     cons.print("Too much fuel!");
+                    break;
                 } else {
                     break;
                 }
@@ -363,9 +379,8 @@ public class SpaceshipManager   {
         cons.print(save.loadEncryptedString(basePath + NAME_SAVE_PATH) + " was successfully refueled!");
     }
 
-    @SuppressWarnings("unused") // TODO: REMOVE THIS EVENTUALLY
     private void launchSpaceship() {
-        // TODO: This.
+        WebControl web = new WebControl();
         boolean[] ships = save.loadEncryptedBooleanArray(SHIP_SAVE_PATH, defaultSpaceship);
 
         int numberOfExistingShips = 0;
@@ -405,17 +420,11 @@ public class SpaceshipManager   {
         }
 
         String basePath = "savedata/shipdata/ship" + (shipIndex + 1) + "/";
-        int[] def = {};
-        int[] assignedAstro = save.loadEncryptedIntArray(basePath + ASSIGNED_SAVE_PATH, def);
         double currentFuel = save.loadEncryptedDouble(basePath + CURRENT_SAVE_PATH);
         String name = save.loadEncryptedString(basePath + NAME_SAVE_PATH);
 
-        if (assignedAstro.length == 0) {
-            cons.print("There are no assigned astronauts to " + name);
-        }
-
-        if (currentFuel < 12000) {
-            cons.print(name + " does not have enough fuel to launch! Each ship needs at least 12000 lbs. to be safe!");
+        if (currentFuel < 300) {
+            cons.print(name + " does not have enough fuel to launch! Each ship needs at least 300 lbs. to be safe!");
             return;
         }
 
@@ -425,28 +434,38 @@ public class SpaceshipManager   {
         cons.print("Beginning countdown...");
         sleep.sleepSeconds(1);
         cons.print("10");
+        web.openImage("assets/10.png", 1414, 2000);
         sleep.sleepSeconds(1);
         cons.print("9");
+        web.openImage("assets/9.png", 1414, 2000);
         sleep.sleepSeconds(1);
         cons.print("8");
+        web.openImage("assets/8.png", 1414, 2000);
         sleep.sleepSeconds(1);
         cons.print("7");
+        web.openImage("assets/7.png", 1414, 2000);
         sleep.sleepSeconds(1);
         cons.print("6");
+        web.openImage("assets/6.png", 1414, 2000);
         sleep.sleepSeconds(1);
         cons.print("5");
+        web.openImage("assets/5.png", 1414, 2000);
         sleep.sleepSeconds(1);
         cons.print("4");
+        web.openImage("assets/4.png", 1414, 2000);
         sleep.sleepSeconds(1);
         cons.print("3");
+        web.openImage("assets/3.png", 1414, 2000);
         sleep.sleepSeconds(1);
         cons.print("2");
+        web.openImage("assets/2.png", 1414, 2000);
         sleep.sleepSeconds(1);
         cons.print("1");
+        web.openImage("assets/1.png", 1414, 2000);
         sleep.sleepSeconds(1);
         cons.print("BLAST OFF!");
+        web.openImage("assets/BLAST_OFF.png", 1414, 2000);
 
-        // TODO: Down here!
         double speed = 0.0;
         double altitude = 0.0;
         double seconds = 0;
@@ -455,14 +474,14 @@ public class SpaceshipManager   {
             sleep.sleep(250);
             seconds += 0.25;
             currentFuel -= 0.5;
-            speed += 15;
+            speed += (0.5 * 7.5) - 2.4525;
             altitude += speed;
 
             if (altitude >= 70000) {
                 altitude = 70000;
             }
 
-            cons.print("Time (seconds): " + seconds + cons.indent() + "Current Fuel: " + currentFuel + cons.indent() + "Altitude: " + altitude);
+            cons.print("Time (seconds): " + seconds + cons.indent() + "Current Fuel: " + currentFuel + cons.indent() + "Speed: " + speed + cons.indent() + "Altitude: " + altitude);
         }
 
         sleep.sleep(500);
@@ -477,18 +496,41 @@ public class SpaceshipManager   {
 
         cons.print("Moonwalk over. Astronauts have gone back to " + name + ".");
 
+        cons.print("Beginning descent back to earth...");
         seconds = 0;
+        speed = 0;
         while (altitude > 0) {
-            sleep.sleep(250);
-            seconds += 0.25;
-            currentFuel -= 0.5;
-            altitude -= 15;
+            boolean parachute;
 
-            if (altitude >= 70000) {
-                altitude = 70000;
+            if (altitude <= 10000) {
+                parachute = true;
+            } else {
+                parachute = false;
             }
 
-            cons.print("Time (seconds): " + seconds + cons.indent() + "Current Fuel: " + currentFuel + cons.indent() + "Altitude: " + altitude);
+            sleep.sleep(250);
+
+            if (!parachute) {
+                seconds += 0.25;
+                currentFuel -= 0.5;
+                speed += (0.5 * 7.5) + 2.4525;
+                altitude -= speed;
+            } else {
+                seconds += 0.25;
+                speed = 7.0;
+                altitude -= speed;
+            }
+
+            if (altitude <= 0) {
+                altitude = 0;
+            }
+
+            cons.print("Time (seconds): " + seconds + cons.indent() + "Current Fuel: " + currentFuel + cons.indent() + "Speed: " + speed + cons.indent() + "Altitude: " + altitude);
         }
+
+        cons.print("Mission has been successful!");
+        sleep.sleep(500);
+
+        save.saveEncryptedDouble(basePath + CURRENT_SAVE_PATH, currentFuel);
     }
 }
