@@ -307,6 +307,7 @@ public class AstroManager {
         cons.print("New Astronaut information has been saved successfully.");
     }
 
+    // TODO: Ask for confirmation
     private void deleteAstronaut() {
         int count = -1;
     

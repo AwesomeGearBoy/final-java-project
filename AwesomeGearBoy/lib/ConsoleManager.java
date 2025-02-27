@@ -155,4 +155,17 @@ public class ConsoleManager {
     public void printSl(Object x) {
         System.out.print(x);
     }
+
+    /**
+     * Adds an indent to text.
+     * @return An indent
+     */
+    public String indent() {
+        int indentLevel = 4;
+        String indent = "";
+        for (int i = 0; i < indentLevel; i++) {
+            indent += " ";
+        }
+        return indent;
+    }
 }

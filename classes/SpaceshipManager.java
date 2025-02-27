@@ -4,7 +4,6 @@ import java.util.*;
 
 import AwesomeGearBoy.lib.*;
 
-// TODO: There is a problem with this class involving saving data in addSpaceship(). Consistantly saving to 'ship1' folder.
 public class SpaceshipManager   {
     final String SHIP_SAVE_PATH = "savedata/shipdata/s7wko92b.data";
     final String NAME_SAVE_PATH = "72gbedjj.data";
@@ -12,11 +11,12 @@ public class SpaceshipManager   {
     final String ASTRONAUTS_SAVE_PATH = "3ud83bd8.data";
     final String CAPACITY_SAVE_PATH = "cvy62md8.data";
     final String CURRENT_SAVE_PATH = "2vsyas8x.data";
-    final String NUMBER_OF_ASTRONAUTS_ASSIGNED_SAVE_PATH = "nudy3b38.data";
+    final String NUMBER_OF_ASTRONAUTS_ASSIGNED_SAVE_PATH = "savedata/shipdata/nudy3b38.data";
     Scanner input;
     SaveData save = new SaveData();
+    SleepTime sleep = new SleepTime();
     ConsoleManager cons;
-    int count = save.loadEncryptedInt(SHIP_SAVE_PATH, 0);
+    int count;
     boolean[] defaultAssigned = { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
     boolean[] defaultSpaceship = { false, false, false, false, false, false, false, false, false, false };
 
@@ -68,45 +68,49 @@ public class SpaceshipManager   {
         }   while(menuRunning);     // Using this to keep error away for now
     }
 
-    private void addSpaceship()   {
+    private void addSpaceship() {
         boolean[] ship = save.loadEncryptedBooleanArray(SHIP_SAVE_PATH, defaultSpaceship);
-        int count = -1;
-        
+        int availableSlot = -1;
+    
         // Find first available slot
         for (int i = 0; i < ship.length; i++) {
             if (!ship[i]) {
-                count = i;
+                availableSlot = i;
                 break;
             }
         }
-        
-        if (count == -1) {
+    
+        if (availableSlot == -1) {
             cons.print("Spaceship capacity reached.");
             return;
         }
-        
+    
         cons.print("Enter new Spaceship's name: ");
-        String name;
-        name = input.nextLine();
-            
-
+        String name = input.nextLine();
+    
         cons.print("Enter the Spaceship's fuel capacity (lbs): ");
-        while   (!input.hasNextDouble())   {
+        while (!input.hasNextDouble()) {
             cons.print("Invalid input, please enter a valid number.");
             input.next();
         }
         double fuelCapacity = input.nextDouble();
-        input.nextLine();
-        String basicPath = "savedata/shipdata/ship" + (count + 1) + "/";
+        input.nextLine(); // Consume newline
+    
+        String basicPath = "savedata/shipdata/ship" + (availableSlot + 1) + "/";
         save.saveEncryptedString(basicPath + NAME_SAVE_PATH, name);
         save.saveEncryptedDouble(basicPath + CAPACITY_SAVE_PATH, fuelCapacity);
-
-        cons.print("Spaceship saved as Ship #" + (count + 1));
-    }
+    
+        // Mark spaceship as used
+        ship[availableSlot] = true;
+        save.saveEncryptedBooleanArray(SHIP_SAVE_PATH, ship);
+    
+        cons.print("Spaceship saved as Ship #" + (availableSlot + 1));
+    }    
 
     private void assignAstronauts() {
         AstroManager astroManager = new AstroManager(input, cons);
         int numbAstroAssigned = save.loadEncryptedInt(NUMBER_OF_ASTRONAUTS_ASSIGNED_SAVE_PATH, 0);
+        boolean[] ships = save.loadEncryptedBooleanArray(SHIP_SAVE_PATH, defaultSpaceship);
         boolean[] astronauts = astroManager.getAstronauts();
         boolean[] assigned = save.loadEncryptedBooleanArray(ASSIGNED_SAVE_PATH, defaultAssigned);
     
@@ -117,23 +121,41 @@ public class SpaceshipManager   {
                 numberOfExistingAstros++;
             }
         }
-    
+
         if (numberOfExistingAstros <= 0) {
             cons.print("ERROR: No astronauts exist!");
+            return;
+        }
+
+        // Count existing ships
+        int numberOfExistingShips = 0;
+        for (boolean ship : ships) {
+            if (ship) {
+                numberOfExistingShips++;
+            }
+        }
+
+        if (numberOfExistingShips <= 0) {
+            cons.print("There are no existing ships!");
             return;
         }
     
         // Select spaceship
         int shipIndex;
-        cons.print("Which ship do you want to assign astronauts to? (1-10)");
     
         while (true) {
+            cons.printSl("Which ship do you want to assign astronauts to? (1-10): ");
+
             if (input.hasNextInt()) {
                 shipIndex = input.nextInt() - 1; // Convert to zero-based index
                 input.nextLine(); // Consume newline
-    
+                
                 if (shipIndex >= 0 && shipIndex < 10) {
-                    break;
+                    if (ships[shipIndex] == true) {
+                        break;
+                    } else {
+                        cons.print("Ship does not exist!");
+                    }
                 } else {
                     cons.print("Invalid choice. Please enter a number between 1 and 10.");
                 }
@@ -157,11 +179,15 @@ public class SpaceshipManager   {
             if (input.hasNextInt()) {
                 astroCount = input.nextInt();
                 input.nextLine(); // Consume newline
-    
-                if (astroCount >= 1 && astroCount <= availableSpots) {
-                    break;
+
+                if (numberOfExistingAstros < astroCount) {
+                    cons.print("There aren't enough astronauts!");
                 } else {
-                    cons.print("Invalid choice. Please enter a number between 1 and " + availableSpots + ".");
+                    if (astroCount >= 1 && astroCount <= availableSpots) {
+                        break;
+                    } else {
+                        cons.print("Invalid choice. Please enter a number between 1 and " + availableSpots + ".");
+                    }
                 }
             } else {
                 cons.print("Invalid input. Please enter a number.");
@@ -170,26 +196,30 @@ public class SpaceshipManager   {
         }
     
         // Assign astronauts
+        boolean[] astro = astroManager.getAstronauts();
         int[] assignedAstronauts = new int[astroCount];
     
         for (int i = 0; i < astroCount; i++) {
             int astroNum;
             while (true) {
                 cons.print("Enter the number of Astronaut #" + (i + 1) + " (1-15):");
-    
                 if (input.hasNextInt()) {
                     astroNum = input.nextInt();
                     input.nextLine(); // Consume newline
-    
+
                     if (astroNum >= 1 && astroNum <= 15) {
                         astroNum--; // Convert to zero-based index
-    
-                        if (!assigned[astroNum]) {
-                            assignedAstronauts[i] = astroNum;
-                            assigned[astroNum] = true;
-                            break; // Valid astronaut assigned, exit loop
+                        
+                        if (astro[astroNum] == true) {
+                            if (!assigned[astroNum]) {
+                                assignedAstronauts[i] = astroNum;
+                                assigned[astroNum] = true;
+                                break; // Valid astronaut assigned, exit loop
+                            } else {
+                                cons.print("Astronaut #" + (astroNum + 1) + " is already assigned. Choose another.");
+                            }
                         } else {
-                            cons.print("Astronaut #" + (astroNum + 1) + " is already assigned. Choose another.");
+                            cons.print("Astronaut does not exist!");
                         }
                     } else {
                         cons.print("Invalid astronaut number. Please enter a number between 1 and 15.");
@@ -212,6 +242,7 @@ public class SpaceshipManager   {
         cons.print(astroCount + " astronauts successfully assigned to Ship #" + (shipIndex + 1) + "!");
     }    
 
+    // TODO: Ask for confirmation
     private void deleteSpaceship() {
         boolean[] ships = save.loadEncryptedBooleanArray(SHIP_SAVE_PATH, defaultSpaceship);
     
@@ -270,12 +301,194 @@ public class SpaceshipManager   {
     }    
 
     private void fuelSpaceship()  {
-        // TODO: This.
+        boolean[] ships = save.loadEncryptedBooleanArray(SHIP_SAVE_PATH, defaultSpaceship);
+
+        int numberOfExistingShips = 0;
+        for (boolean ship : ships) {
+            if (ship) {
+                numberOfExistingShips++;
+            }
+        }
+
+        if (numberOfExistingShips <= 0) {
+            cons.print("There are no existing ships!");
+            return;
+        }
+
+        int shipIndex;
+    
+        while (true) {
+            cons.printSl("Which ship do you want to refuel? (1-10): ");
+
+            if (input.hasNextInt()) {
+                shipIndex = input.nextInt() - 1; // Convert to zero-based index
+                input.nextLine(); // Consume newline
+                
+                if (shipIndex >= 0 && shipIndex < 10) {
+                    if (ships[shipIndex] == true) {
+                        break;
+                    } else {
+                        cons.print("Ship does not exist!");
+                    }
+                } else {
+                    cons.print("Invalid choice. Please enter a number between 1 and 10.");
+                }
+            } else {
+                cons.print("Invalid input. Please enter a number.");
+                input.next(); // Consume invalid input
+            }
+        }
+
+        String basePath = "savedata/shipdata/ship" + (shipIndex + 1) + "/";
+        double currentFuel = save.loadEncryptedDouble(basePath + CURRENT_SAVE_PATH, 0.0);
+        double shipCapacity = save.loadEncryptedDouble(basePath + CAPACITY_SAVE_PATH);
+
+        cons.print("How much fuel are you putting in this ship?");
+        double fuel;
+        while (true) {
+            if (input.hasNextDouble()) {
+                fuel = input.nextDouble() + currentFuel;
+    
+                if (fuel > shipCapacity) {
+                    cons.print("Too much fuel!");
+                } else {
+                    break;
+                }
+            }
+        }
+
+        currentFuel = fuel;
+
+        save.saveEncryptedDouble(basePath + CURRENT_SAVE_PATH, currentFuel);
+        cons.print(save.loadEncryptedString(basePath + NAME_SAVE_PATH) + " was successfully refueled!");
     }
 
-    // Could be done in here rather than main
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused") // TODO: REMOVE THIS EVENTUALLY
     private void launchSpaceship() {
-        // pass for now
+        // TODO: This.
+        boolean[] ships = save.loadEncryptedBooleanArray(SHIP_SAVE_PATH, defaultSpaceship);
+
+        int numberOfExistingShips = 0;
+        for (boolean ship : ships) {
+            if (ship) {
+                numberOfExistingShips++;
+            }
+        }
+
+        if (numberOfExistingShips <= 0) {
+            cons.print("There are no existing ships!");
+            return;
+        }
+
+        int shipIndex;
+    
+        while (true) {
+            cons.printSl("Which ship do you want to launch? (1-10): ");
+
+            if (input.hasNextInt()) {
+                shipIndex = input.nextInt() - 1; // Convert to zero-based index
+                input.nextLine(); // Consume newline
+                
+                if (shipIndex >= 0 && shipIndex < 10) {
+                    if (ships[shipIndex] == true) {
+                        break;
+                    } else {
+                        cons.print("Ship does not exist!");
+                    }
+                } else {
+                    cons.print("Invalid choice. Please enter a number between 1 and 10.");
+                }
+            } else {
+                cons.print("Invalid input. Please enter a number.");
+                input.next(); // Consume invalid input
+            }
+        }
+
+        String basePath = "savedata/shipdata/ship" + (shipIndex + 1) + "/";
+        int[] def = {};
+        int[] assignedAstro = save.loadEncryptedIntArray(basePath + ASSIGNED_SAVE_PATH, def);
+        double currentFuel = save.loadEncryptedDouble(basePath + CURRENT_SAVE_PATH);
+        String name = save.loadEncryptedString(basePath + NAME_SAVE_PATH);
+
+        if (assignedAstro.length == 0) {
+            cons.print("There are no assigned astronauts to " + name);
+        }
+
+        if (currentFuel < 12000) {
+            cons.print(name + " does not have enough fuel to launch! Each ship needs at least 12000 lbs. to be safe!");
+            return;
+        }
+
+        sleep.sleep(500);
+        cons.print("Initiating countdown to launch.");
+        sleep.sleep(500);
+        cons.print("Beginning countdown...");
+        sleep.sleepSeconds(1);
+        cons.print("10");
+        sleep.sleepSeconds(1);
+        cons.print("9");
+        sleep.sleepSeconds(1);
+        cons.print("8");
+        sleep.sleepSeconds(1);
+        cons.print("7");
+        sleep.sleepSeconds(1);
+        cons.print("6");
+        sleep.sleepSeconds(1);
+        cons.print("5");
+        sleep.sleepSeconds(1);
+        cons.print("4");
+        sleep.sleepSeconds(1);
+        cons.print("3");
+        sleep.sleepSeconds(1);
+        cons.print("2");
+        sleep.sleepSeconds(1);
+        cons.print("1");
+        sleep.sleepSeconds(1);
+        cons.print("BLAST OFF!");
+
+        // TODO: Down here!
+        double speed = 0.0;
+        double altitude = 0.0;
+        double seconds = 0;
+
+        while (altitude < 70000) {
+            sleep.sleep(250);
+            seconds += 0.25;
+            currentFuel -= 0.5;
+            speed += 15;
+            altitude += speed;
+
+            if (altitude >= 70000) {
+                altitude = 70000;
+            }
+
+            cons.print("Time (seconds): " + seconds + cons.indent() + "Current Fuel: " + currentFuel + cons.indent() + "Altitude: " + altitude);
+        }
+
+        sleep.sleep(500);
+        cons.print(name + " has landed on the moon.");
+        sleep.sleep(500);
+        cons.print("Beginning 30 second moonwalk...");
+        
+        for (int i = 0; i < 30; i++) {
+            cons.print((30 - i) + " seconds left in spacewalk.");
+            sleep.sleepSeconds(1);
+        }
+
+        cons.print("Moonwalk over. Astronauts have gone back to " + name + ".");
+
+        seconds = 0;
+        while (altitude > 0) {
+            sleep.sleep(250);
+            seconds += 0.25;
+            currentFuel -= 0.5;
+            altitude -= 15;
+
+            if (altitude >= 70000) {
+                altitude = 70000;
+            }
+
+            cons.print("Time (seconds): " + seconds + cons.indent() + "Current Fuel: " + currentFuel + cons.indent() + "Altitude: " + altitude);
+        }
     }
 }
