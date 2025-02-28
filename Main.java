@@ -55,7 +55,6 @@ public class Main {
                     System.exit(0); // Exit program
                 }
 
-                cons.print("Password: " + password); // TODO: Delete this eventually!
                 cons.printSl(ansi.yellow() + ansi.blackBackground() + "Enter password:" + ansi.reset() + " "); // Ask for input
                 inp = input.nextLine(); // Get input
 
@@ -72,14 +71,14 @@ public class Main {
 
         do {
             int choice;
-            cons.print("Please make a selection for what to do:");
-            cons.print("1. Astronauts menu");
-            cons.print("2. Spaceship menu");
-            cons.print("3. Quit program");
-            cons.printSl("Please make a selection: ");
+            cons.print(ansi.purple() + ansi.blackBackground() + "Please make a selection for what to do:" + ansi.reset());
+            cons.print(ansi.blackBackground() + "1. Astronauts menu" + ansi.reset());
+            cons.print(ansi.blackBackground() + "2. Spaceship menu" + ansi.reset());
+            cons.print(ansi.blackBackground() + "3. Quit program" + ansi.reset());
+            cons.printSl(ansi.yellow() + ansi.blackBackground() + "Please make a selection:" + ansi.reset() + " ");
 
             while (!input.hasNextInt()) {  // Validate integer input
-                cons.printSl("Invalid input. Please make a selection: ");
+                cons.printSl(ansi.red() + ansi.blackBackground() + "Invalid input. Please make a selection:" + ansi.reset() + " ");
                 input.next(); // Consume invalid input
             }
             choice = input.nextInt();
@@ -95,12 +94,12 @@ public class Main {
                     ship.showMenu();
                     break;
                 case 3:
-                    cons.print("Goodbye!");
+                    cons.print(ansi.red() + ansi.blackBackground() + "Goodbye!" + ansi.reset());
                     input.close();
                     System.exit(0);
                     break;
                 default:
-                    cons.print("Invalid option. Please try again.");
+                    cons.print(ansi.red() + ansi.blackBackground() + "Invalid option. Please try again." + ansi.reset());
                     break;
             }
         } while (true);
