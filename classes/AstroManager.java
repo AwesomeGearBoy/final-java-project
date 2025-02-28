@@ -32,7 +32,7 @@ public class AstroManager {
         int choice;
     
         do {
-            cons.print(ansi.purple() + ansi.blackBackground() + "Welcome to the astronaut manager." + ansi.reset());
+            cons.print(ansi.purple() + ansi.blackBackground() + "\nWelcome to the astronaut manager." + ansi.reset());
             cons.print(ansi.blackBackground() + "1. Add an astronaut" + ansi.reset());
             cons.print(ansi.blackBackground() + "2. Edit an astronaut" + ansi.reset());
             cons.print(ansi.blackBackground() + "3. Delete an astronaut" + ansi.reset());
@@ -308,7 +308,6 @@ public class AstroManager {
         cons.print(ansi.purple() + ansi.blackBackground() + "New Astronaut information has been saved successfully." + ansi.reset());
     }
 
-    // TODO: Ask for confirmation
     private void deleteAstronaut() {
         int count = -1;
     
@@ -336,25 +335,31 @@ public class AstroManager {
             cons.print(ansi.red() + ansi.blackBackground() + "No astronaut exists at this slot." + ansi.reset());
             return;
         }
-    
-        // Mark astronaut as deleted
-        astro[count] = false;
-        save.saveEncryptedBooleanArray(ASTRO_SAVE_PATH, astro);
 
-        count++;
-        String basePath = "savedata/astrodata/astro" + count + "/";
-        save.saveEncryptedString(basePath + NAME_SAVE_PATH, "");
-        save.saveEncryptedString(basePath + BIRTHDAY_SAVE_PATH, "");
-        save.saveEncryptedInt(basePath + SERIAL_SAVE_PATH, 0);
-        save.saveEncryptedString(basePath + ADDRESS_SAVE_PATH, "");
-        save.saveEncryptedString(basePath + EMAIL_SAVE_PATH, "");
-        save.saveEncryptedString(basePath + PHONE_SAVE_PATH, "");
-        save.saveEncryptedDouble(basePath + PAY_RATE_SAVE_PATH, 0);
-        save.saveEncryptedDouble(basePath + WEIGHT_SAVE_PATH, 0);
-        save.saveEncryptedStringArray(basePath + CHILDREN_SAVE_PATH, new String[0]);
-        save.saveEncryptedInt(basePath + STATIS_SAVE_PATH, 0);
+        cons.print(ansi.red() + ansi.blackBackground() + "Are you sure you want to delete Ship #" + (count + 1) + "? (y/n)" + ansi.reset());
+        String confirmation = input.nextLine().toLowerCase();
+        if (confirmation.equals("y")) {
+            // Mark astronaut as deleted
+            astro[count] = false;
+            save.saveEncryptedBooleanArray(ASTRO_SAVE_PATH, astro);
 
-        cons.print(ansi.purple() + ansi.blackBackground() + "Astronaut #" + count + " has been deleted." + ansi.reset());
+            count++;
+            String basePath = "savedata/astrodata/astro" + count + "/";
+            save.saveEncryptedString(basePath + NAME_SAVE_PATH, "");
+            save.saveEncryptedString(basePath + BIRTHDAY_SAVE_PATH, "");
+            save.saveEncryptedInt(basePath + SERIAL_SAVE_PATH, 0);
+            save.saveEncryptedString(basePath + ADDRESS_SAVE_PATH, "");
+            save.saveEncryptedString(basePath + EMAIL_SAVE_PATH, "");
+            save.saveEncryptedString(basePath + PHONE_SAVE_PATH, "");
+            save.saveEncryptedDouble(basePath + PAY_RATE_SAVE_PATH, 0);
+            save.saveEncryptedDouble(basePath + WEIGHT_SAVE_PATH, 0);
+            save.saveEncryptedStringArray(basePath + CHILDREN_SAVE_PATH, new String[0]);
+            save.saveEncryptedInt(basePath + STATIS_SAVE_PATH, 0);
+
+            cons.print(ansi.purple() + ansi.blackBackground() + "Astronaut #" + count + " has been deleted." + ansi.reset());
+        } else {
+            cons.print(ansi.green() + ansi.blackBackground() + "Deletion cancelled." + ansi.reset());
+        }
     }
 
     public boolean[] getAstronauts() {

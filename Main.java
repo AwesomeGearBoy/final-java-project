@@ -12,11 +12,6 @@ public class Main {
         // Constant Strings
         final String ADMIN_PASSWORD = "sf,om234";
 
-        // Constant Integers
-        // Constant Doubles
-        // Constant Floats
-        // Constant Booleans
-
         // Drewski's library
         ConsoleManager cons = new ConsoleManager();
         AnsiColors ansi = new AnsiColors();
@@ -28,10 +23,6 @@ public class Main {
 
         // Strings
         String password = save.loadEncryptedString(PASSWORD_SAVE_PATH, "xxxxxxxx"); // Load the password. If file does not exist, the default value is "xxxxxxxx"
-
-        // Integers
-        // Doubles
-        // Floats
 
         // Booleans
         boolean firstTimeRun = save.loadEncryptedBoolean(FIRST_TIME_RUN_SAVE_PATH, true); // Load if it is the first time ran. If file does not exist, it assumes that it is the first time running the program.
@@ -71,10 +62,12 @@ public class Main {
 
         do {
             int choice;
-            cons.print(ansi.purple() + ansi.blackBackground() + "Please make a selection for what to do:" + ansi.reset());
+            // Main menu
+            cons.print(ansi.purple() + ansi.blackBackground() + "\nPlease make a selection for what to do:" + ansi.reset());
             cons.print(ansi.blackBackground() + "1. Astronauts menu" + ansi.reset());
             cons.print(ansi.blackBackground() + "2. Spaceship menu" + ansi.reset());
-            cons.print(ansi.blackBackground() + "3. Quit program" + ansi.reset());
+            cons.print(ansi.blackBackground() + "3. Show credits" + ansi.reset());
+            cons.print(ansi.blackBackground() + "4. Quit program" + ansi.reset());
             cons.printSl(ansi.yellow() + ansi.blackBackground() + "Please make a selection:" + ansi.reset() + " ");
 
             while (!input.hasNextInt()) {  // Validate integer input
@@ -84,7 +77,7 @@ public class Main {
             choice = input.nextInt();
             input.nextLine(); // Consume newline
 
-            switch (choice) {
+            switch (choice) { // Switch between menues
                 case 1:
                     AstroManager astro = new AstroManager(input, cons);
                     astro.showMenu();
@@ -94,12 +87,18 @@ public class Main {
                     ship.showMenu();
                     break;
                 case 3:
-                    cons.print(ansi.red() + ansi.blackBackground() + "Goodbye!" + ansi.reset());
-                    input.close();
-                    System.exit(0);
+                    // Credits
+                    cons.print(ansi.green() + ansi.blackBackground() + "\nPrograming done by: Drew \"Drewki\" Schroeder and Teagen Revercomb" + ansi.reset());
+                    cons.print(ansi.blue() + ansi.blackBackground() + "Graphics done by: Kiefer Beck" + ansi.reset());
+                    cons.print(ansi.red() + ansi.blackBackground() + "UML Diagram done by: Jon Rotunno" + ansi.reset());
+                    break;
+                case 4:
+                    cons.print(ansi.green() + ansi.blackBackground() + "Goodbye!" + ansi.reset()); // 
+                    input.close(); // Close scanner
+                    System.exit(0); // Exit
                     break;
                 default:
-                    cons.print(ansi.red() + ansi.blackBackground() + "Invalid option. Please try again." + ansi.reset());
+                    cons.print(ansi.red() + ansi.blackBackground() + "Invalid option. Please try again." + ansi.reset()); // Validate input
                     break;
             }
         } while (true);

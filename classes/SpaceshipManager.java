@@ -5,6 +5,7 @@ import java.util.*;
 import AwesomeGearBoy.lib.*;
 
 public class SpaceshipManager   {
+    // Final Strings
     final String SHIP_SAVE_PATH = "savedata/shipdata/s7wko92b.data";
     final String NAME_SAVE_PATH = "72gbedjj.data";
     final String ASSIGNED_SAVE_PATH = "savedata/shipdata/83h3urum.data";
@@ -12,32 +13,38 @@ public class SpaceshipManager   {
     final String CAPACITY_SAVE_PATH = "cvy62md8.data";
     final String CURRENT_SAVE_PATH = "2vsyas8x.data";
     final String NUMBER_OF_ASTRONAUTS_ASSIGNED_SAVE_PATH = "savedata/shipdata/nudy3b38.data";
-    Scanner input;
+    Scanner input; // Scanner
+    // Drewski's library
     SaveData save = new SaveData();
     SleepTime sleep = new SleepTime();
+    AnsiColors ansi = new AnsiColors();
     ConsoleManager cons;
+
+    // Integers
     int count;
+
+    // Default boolean arrays
     boolean[] defaultAssigned = { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
     boolean[] defaultSpaceship = { false, false, false, false, false, false, false, false, false, false };
 
     public SpaceshipManager(Scanner input, ConsoleManager cons)  {
-        this.cons = cons;
-        this.input = input;
+        this.cons = cons; // Get console
+        this.input = input; // Get Scanner
     }
          
     public void showMenu() {
-        boolean menuRunning = true;
+        boolean menuRunning = true; // Set to running
         int choice;
         
         do {
-            cons.print("Welcome to the Spaceship Manager.");
-            cons.print("1. Add a spaceship");
-            cons.print("2. Assign astronauts");
-            cons.print("3. Delete a spaceship");
-            cons.print("4. Fuel a spaceship"); 
-            cons.print("5. Launch a spaceship");
-            cons.print("6. Back to main menu");
-            cons.printSl("Please make a selection: ");
+            cons.print(ansi.purple() + ansi.blackBackground() + "\nWelcome to the Spaceship Manager." + ansi.reset());
+            cons.print(ansi.blackBackground() + "1. Add a spaceship" + ansi.reset());
+            cons.print(ansi.blackBackground() + "2. Assign astronauts" + ansi.reset());
+            cons.print(ansi.blackBackground() + "3. Delete a spaceship" + ansi.reset());
+            cons.print(ansi.blackBackground() + "4. Fuel a spaceship" + ansi.reset()); 
+            cons.print(ansi.blackBackground() + "5. Launch a spaceship" + ansi.reset());
+            cons.print(ansi.blackBackground() + "6. Back to main menu" + ansi.reset());
+            cons.printSl(ansi.yellow() + ansi.blackBackground() + "Please make a selection:" + ansi.reset() + " "); // Get selection
 
             while (!input.hasNextInt()) {  // Validate integer input
                 cons.print("Invalid input. Please enter a number.");
@@ -46,7 +53,7 @@ public class SpaceshipManager   {
             choice = input.nextInt();
             input.nextLine(); // Consume newline
     
-            switch (choice) {
+            switch (choice) { // Switch between choices
                 case 1:
                     addSpaceship();
                     break;
@@ -66,7 +73,7 @@ public class SpaceshipManager   {
                     menuRunning = false;
                     break;
                 default:
-                    cons.print("Invalid option. Please try again.");
+                    cons.print(ansi.red() + ansi.blackBackground() + "Invalid option. Please try again." + ansi.reset()); // Validate input
                     break;
             }
         }   while(menuRunning);
@@ -85,19 +92,19 @@ public class SpaceshipManager   {
         }
     
         if (availableSlot == -1) {
-            cons.print("Spaceship capacity reached.");
+            cons.print(ansi.red() + ansi.blackBackground() + "Spaceship capacity reached." + ansi.reset());
             return;
         }
     
-        cons.print("Enter new Spaceship's name: ");
-        String name = input.nextLine();
+        cons.print(ansi.yellow() + ansi.blackBackground() + "Enter new Spaceship's name:" + ansi.reset() + " ");
+        String name = input.nextLine(); // Get input
     
-        cons.print("Enter the Spaceship's fuel capacity (lbs): ");
+        cons.print(ansi.yellow() + ansi.blackBackground() + "Enter the Spaceship's fuel capacity (lbs):" + ansi.reset() + " ");
         while (!input.hasNextDouble()) {
-            cons.print("Invalid input, please enter a valid number.");
+            cons.print(ansi.red() + ansi.blackBackground() + "Invalid input, please enter a valid number." + ansi.reset());
             input.next();
         }
-        double fuelCapacity = input.nextDouble();
+        double fuelCapacity = input.nextDouble(); // Get input
         input.nextLine(); // Consume newline
     
         String basicPath = "savedata/shipdata/ship" + (availableSlot + 1) + "/";
@@ -108,7 +115,7 @@ public class SpaceshipManager   {
         ship[availableSlot] = true;
         save.saveEncryptedBooleanArray(SHIP_SAVE_PATH, ship);
     
-        cons.print("Spaceship saved as Ship #" + (availableSlot + 1));
+        cons.print(ansi.purple() + ansi.blackBackground() + "Spaceship saved as Ship #" + (availableSlot + 1) + ansi.reset());
     }    
 
     private void assignAstronauts() {
@@ -127,7 +134,7 @@ public class SpaceshipManager   {
         }
 
         if (numberOfExistingAstros <= 0) {
-            cons.print("ERROR: No astronauts exist!");
+            cons.print(ansi.red() + ansi.blackBackground() + "ERROR: No astronauts exist!" + ansi.reset());
             return;
         }
 
@@ -140,7 +147,7 @@ public class SpaceshipManager   {
         }
 
         if (numberOfExistingShips <= 0) {
-            cons.print("There are no existing ships!");
+            cons.print(ansi.red() + ansi.blackBackground() + "There are no existing ships!" + ansi.reset());
             return;
         }
     
@@ -148,7 +155,7 @@ public class SpaceshipManager   {
         int shipIndex;
     
         while (true) {
-            cons.printSl("Which ship do you want to assign astronauts to? (1-10): ");
+            cons.printSl(ansi.yellow() + ansi.blackBackground() + "Which ship do you want to assign astronauts to? (1-10):" + ansi.reset() + " ");
 
             if (input.hasNextInt()) {
                 shipIndex = input.nextInt() - 1; // Convert to zero-based index
@@ -158,13 +165,13 @@ public class SpaceshipManager   {
                     if (ships[shipIndex] == true) {
                         break;
                     } else {
-                        cons.print("Ship does not exist!");
+                        cons.print(ansi.red() + ansi.blackBackground() + "Ship does not exist!" + ansi.reset());
                     }
                 } else {
-                    cons.print("Invalid choice. Please enter a number between 1 and 10.");
+                    cons.print(ansi.red() + ansi.blackBackground() + "Invalid choice. Please enter a number between 1 and 10." + ansi.reset());
                 }
             } else {
-                cons.print("Invalid input. Please enter a number.");
+                cons.print(ansi.red() + ansi.blackBackground() + "Invalid input. Please enter a number." + ansi.reset());
                 input.next(); // Consume invalid input
             }
         }
@@ -172,12 +179,12 @@ public class SpaceshipManager   {
         // Select number of astronauts to assign
         int availableSpots = 15 - numbAstroAssigned;
         if (availableSpots <= 0) {
-            cons.print("No available slots for astronauts on this spaceship.");
+            cons.print(ansi.red() + ansi.blackBackground() + "No available slots for astronauts on this spaceship." + ansi.reset());
             return;
         }
     
         int astroCount;
-        cons.print("How many astronauts do you want to assign? (1-" + availableSpots + ")");
+        cons.print(ansi.yellow() + ansi.blackBackground() + "How many astronauts do you want to assign? (1-" + availableSpots + ")" + ansi.reset());
     
         while (true) {
             if (input.hasNextInt()) {
@@ -185,16 +192,16 @@ public class SpaceshipManager   {
                 input.nextLine(); // Consume newline
 
                 if (numberOfExistingAstros < astroCount) {
-                    cons.print("There aren't enough astronauts!");
+                    cons.print(ansi.red() + ansi.blackBackground() + "There aren't enough astronauts!" + ansi.reset());
                 } else {
                     if (astroCount >= 1 && astroCount <= availableSpots) {
                         break;
                     } else {
-                        cons.print("Invalid choice. Please enter a number between 1 and " + availableSpots + ".");
+                        cons.print(ansi.red() + ansi.blackBackground() + "Invalid choice. Please enter a number between 1 and " + availableSpots + "." + ansi.reset());
                     }
                 }
             } else {
-                cons.print("Invalid input. Please enter a number.");
+                cons.print(ansi.red() + ansi.blackBackground() + "Invalid input. Please enter a number." + ansi.reset());
                 input.next(); // Consume invalid input
             }
         }
@@ -206,7 +213,7 @@ public class SpaceshipManager   {
         for (int i = 0; i < astroCount; i++) {
             int astroNum;
             while (true) {
-                cons.print("Enter the number of Astronaut #" + (i + 1) + " (1-15):");
+                cons.print(ansi.yellow() + ansi.blackBackground() + "Enter the number of Astronaut #" + (i + 1) + " (1-15):" + ansi.reset());
                 if (input.hasNextInt()) {
                     astroNum = input.nextInt();
                     input.nextLine(); // Consume newline
@@ -220,16 +227,16 @@ public class SpaceshipManager   {
                                 assigned[astroNum] = true;
                                 break; // Valid astronaut assigned, exit loop
                             } else {
-                                cons.print("Astronaut #" + (astroNum + 1) + " is already assigned. Choose another.");
+                                cons.print(ansi.red() + ansi.blackBackground() + "Astronaut #" + (astroNum + 1) + " is already assigned. Choose another." + ansi.reset());
                             }
                         } else {
-                            cons.print("Astronaut does not exist!");
+                            cons.print(ansi.red() + ansi.blackBackground() + "Astronaut does not exist!" + ansi.reset());
                         }
                     } else {
-                        cons.print("Invalid astronaut number. Please enter a number between 1 and 15.");
+                        cons.print(ansi.red() + ansi.blackBackground() + "Invalid astronaut number. Please enter a number between 1 and 15." + ansi.reset());
                     }
                 } else {
-                    cons.print("Invalid input. Please enter a number.");
+                    cons.print(ansi.red() + ansi.blackBackground() + "Invalid input. Please enter a number." + ansi.reset());
                     input.next(); // Consume invalid input
                 }
             }
@@ -243,7 +250,7 @@ public class SpaceshipManager   {
         save.saveEncryptedIntArray(basePath + ASTRONAUTS_SAVE_PATH, assignedAstronauts);
         save.saveEncryptedBooleanArray(ASSIGNED_SAVE_PATH, assigned);
     
-        cons.print(astroCount + " astronauts successfully assigned to Ship #" + (shipIndex + 1) + "!");
+        cons.print(ansi.purple() + ansi.blackBackground() + astroCount + " astronauts successfully assigned to Ship #" + (shipIndex + 1) + "!");
     }    
 
     private void deleteSpaceship() {
@@ -251,7 +258,7 @@ public class SpaceshipManager   {
     
         // Get valid spaceship selection
         int shipIndex;
-        cons.print("Which spaceship do you want to delete? (1-10)");
+        cons.print(ansi.yellow() + ansi.blackBackground() + "Which spaceship do you want to delete? (1-10)" + ansi.reset());
     
         while (true) {
             if (input.hasNextInt()) {
@@ -261,21 +268,21 @@ public class SpaceshipManager   {
                 if (shipIndex >= 0 && shipIndex < 10) {
                     break;
                 } else {
-                    cons.print("Invalid choice. Please enter a number between 1 and 10.");
+                    cons.print(ansi.red() + ansi.blackBackground() + "Invalid choice. Please enter a number between 1 and 10." + ansi.reset());
                 }
             } else {
-                cons.print("Invalid input. Please enter a number.");
+                cons.print(ansi.red() + ansi.blackBackground() + "Invalid input. Please enter a number." + ansi.reset());
                 input.next(); // Consume invalid input
             }
         }
     
         // Check if the spaceship exists
         if (!ships[shipIndex]) {
-            cons.print("No spaceship exists in this slot.");
+            cons.print(ansi.red() + ansi.blackBackground() + "No spaceship exists in this slot." + ansi.reset());
             return;
         }
     
-        cons.print("Are you sure you want to delete Ship #" + (shipIndex + 1) + "? (y/n)");
+        cons.print(ansi.red() + ansi.blackBackground() + "Are you sure you want to delete Ship #" + (shipIndex + 1) + "? (y/n)" + ansi.reset());
         String confirmation = input.nextLine().toLowerCase();
         if (confirmation.equals("y")) {
             // Mark spaceship as deleted
@@ -305,9 +312,9 @@ public class SpaceshipManager   {
             save.saveEncryptedString(basePath + NAME_SAVE_PATH, "");
             save.saveEncryptedDouble(basePath + CAPACITY_SAVE_PATH, 0.0);
         
-            cons.print("Spaceship #" + (shipIndex + 1) + " has been deleted.");
+            cons.print(ansi.purple() + ansi.blackBackground() + "Spaceship #" + (shipIndex + 1) + " has been deleted." + ansi.reset());
         } else {
-            cons.print("Deletion cancelled.");
+            cons.print(ansi.green() + ansi.blackBackground() + "Deletion cancelled." + ansi.reset());
         }
     }    
 
@@ -322,14 +329,14 @@ public class SpaceshipManager   {
         }
 
         if (numberOfExistingShips <= 0) {
-            cons.print("There are no existing ships!");
+            cons.print(ansi.red() + ansi.blackBackground() + "There are no existing ships!" + ansi.reset());
             return;
         }
 
         int shipIndex;
     
         while (true) {
-            cons.printSl("Which ship do you want to refuel? (1-10): ");
+            cons.printSl(ansi.yellow() + ansi.blackBackground() + "Which ship do you want to refuel? (1-10):" + ansi.reset() + " ");
 
             if (input.hasNextInt()) {
                 shipIndex = input.nextInt() - 1; // Convert to zero-based index
@@ -339,13 +346,13 @@ public class SpaceshipManager   {
                     if (ships[shipIndex] == true) {
                         break;
                     } else {
-                        cons.print("Ship does not exist!");
+                        cons.print(ansi.red() + ansi.blackBackground() + "Ship does not exist!" + ansi.reset());
                     }
                 } else {
-                    cons.print("Invalid choice. Please enter a number between 1 and 10.");
+                    cons.print(ansi.red() + ansi.blackBackground() + "Invalid choice. Please enter a number between 1 and 10." + ansi.reset());
                 }
             } else {
-                cons.print("Invalid input. Please enter a number.");
+                cons.print(ansi.red() + ansi.blackBackground() + "Invalid input. Please enter a number." + ansi.reset());
                 input.next(); // Consume invalid input
             }
         }
@@ -354,7 +361,7 @@ public class SpaceshipManager   {
         double currentFuel = save.loadEncryptedDouble(basePath + CURRENT_SAVE_PATH, 0.0);
         double shipCapacity = save.loadEncryptedDouble(basePath + CAPACITY_SAVE_PATH);
 
-        cons.print("How much fuel are you putting in this ship?");
+        cons.print(ansi.yellow() + ansi.blackBackground() + "How much fuel are you putting in this ship?" + ansi.reset());
         double fuel;
         while (true) {
             if (input.hasNextDouble()) {
@@ -362,10 +369,10 @@ public class SpaceshipManager   {
     
                 if (fuel > shipCapacity) {
                     if (fuel + currentFuel > shipCapacity) {
-                        cons.print("Too much fuel! Maximum capacity: " + (shipCapacity - currentFuel) + " lbs.");
-                        return; // Or ask the user to re-enter the amount
+                        cons.print(ansi.red() + ansi.blackBackground() + "Too much fuel! Maximum capacity: " + (shipCapacity - currentFuel) + " lbs." + ansi.reset());
+                        return;
                     }
-                    cons.print("Too much fuel!");
+                    cons.print(ansi.red() + ansi.blackBackground() + "Too much fuel!" + ansi.reset());
                     break;
                 } else {
                     break;
@@ -376,7 +383,7 @@ public class SpaceshipManager   {
         currentFuel = fuel;
 
         save.saveEncryptedDouble(basePath + CURRENT_SAVE_PATH, currentFuel);
-        cons.print(save.loadEncryptedString(basePath + NAME_SAVE_PATH) + " was successfully refueled!");
+        cons.print(ansi.purple() + ansi.blackBackground() + save.loadEncryptedString(basePath + NAME_SAVE_PATH) + " was successfully refueled!" + ansi.reset());
     }
 
     private void launchSpaceship() {
@@ -391,14 +398,14 @@ public class SpaceshipManager   {
         }
 
         if (numberOfExistingShips <= 0) {
-            cons.print("There are no existing ships!");
+            cons.print(ansi.red() + ansi.blackBackground() + "There are no existing ships!" + ansi.reset());
             return;
         }
 
         int shipIndex;
     
         while (true) {
-            cons.printSl("Which ship do you want to launch? (1-10): ");
+            cons.printSl(ansi.yellow() + ansi.blackBackground() + "Which ship do you want to launch? (1-10):" + ansi.reset() + " ");
 
             if (input.hasNextInt()) {
                 shipIndex = input.nextInt() - 1; // Convert to zero-based index
@@ -408,13 +415,13 @@ public class SpaceshipManager   {
                     if (ships[shipIndex] == true) {
                         break;
                     } else {
-                        cons.print("Ship does not exist!");
+                        cons.print(ansi.red() + ansi.blackBackground() + "Ship does not exist!" + ansi.reset());
                     }
                 } else {
-                    cons.print("Invalid choice. Please enter a number between 1 and 10.");
+                    cons.print(ansi.red() + ansi.blackBackground() + "Invalid choice. Please enter a number between 1 and 10." + ansi.reset());
                 }
             } else {
-                cons.print("Invalid input. Please enter a number.");
+                cons.print(ansi.red() + ansi.blackBackground() + "Invalid input. Please enter a number." + ansi.reset());
                 input.next(); // Consume invalid input
             }
         }
@@ -424,14 +431,14 @@ public class SpaceshipManager   {
         String name = save.loadEncryptedString(basePath + NAME_SAVE_PATH);
 
         if (currentFuel < 300) {
-            cons.print(name + " does not have enough fuel to launch! Each ship needs at least 300 lbs. to be safe!");
+            cons.print(ansi.red() + ansi.blackBackground() + name + " does not have enough fuel to launch! Each ship needs at least 300 lbs. to be safe!" + ansi.reset());
             return;
         }
 
         sleep.sleep(500);
-        cons.print("Initiating countdown to launch.");
+        cons.print(ansi.yellow() + ansi.blackBackground() + "Initiating countdown to launch." + ansi.reset());
         sleep.sleep(500);
-        cons.print("Beginning countdown...");
+        cons.print(ansi.yellow() + ansi.blackBackground() + "Beginning countdown..." + ansi.reset());
         sleep.sleepSeconds(1);
         cons.print("10");
         web.openFile("assets/10.png");
@@ -481,22 +488,22 @@ public class SpaceshipManager   {
                 altitude = 70000;
             }
 
-            cons.print("Time (seconds): " + seconds + cons.indent() + "Current Fuel: " + currentFuel + cons.indent() + "Speed: " + speed + cons.indent() + "Altitude: " + altitude);
+            cons.print(ansi.yellow() + "Time (seconds): " + ansi.purple() + seconds + cons.indent() + ansi.yellow() + "Current Fuel: " + ansi.purple() + currentFuel + cons.indent() + ansi.yellow() + "Speed: " + ansi.purple() + speed + cons.indent() + ansi.yellow() + "Altitude: " + ansi.purple() + altitude + ansi.reset());
         }
 
         sleep.sleep(500);
-        cons.print(name + " has landed on the moon.");
+        cons.print(ansi.blackBackground() + name + " has landed on the moon." + ansi.reset());
         sleep.sleep(500);
-        cons.print("Beginning 30 second moonwalk...");
+        cons.print(ansi.blackBackground() + "Beginning 30 second moonwalk..." + ansi.reset());
         
         for (int i = 0; i < 30; i++) {
-            cons.print((30 - i) + " seconds left in spacewalk.");
+            cons.print(ansi.blackBackground() + (30 - i) + " seconds left in moonwalk." + ansi.reset());
             sleep.sleepSeconds(1);
         }
 
-        cons.print("Moonwalk over. Astronauts have gone back to " + name + ".");
+        cons.print(ansi.yellow() + ansi.blackBackground() + "Moonwalk over. Astronauts have gone back to " + name + "." + ansi.reset());
 
-        cons.print("Beginning descent back to earth...");
+        cons.print(ansi.blackBackground() + "Beginning descent back to earth..." + ansi.reset());
         seconds = 0;
         speed = 0;
         while (altitude > 0) {
@@ -525,10 +532,10 @@ public class SpaceshipManager   {
                 altitude = 0;
             }
 
-            cons.print("Time (seconds): " + seconds + cons.indent() + "Current Fuel: " + currentFuel + cons.indent() + "Speed: " + speed + cons.indent() + "Altitude: " + altitude);
+            cons.print(ansi.yellow() + "Time (seconds): " + ansi.purple() + seconds + cons.indent() + ansi.yellow() + "Current Fuel: " + ansi.purple() + currentFuel + cons.indent() + ansi.yellow() + "Speed: " + ansi.purple() + speed + cons.indent() + ansi.yellow() + "Altitude: " + ansi.purple() + altitude + ansi.reset());
         }
 
-        cons.print("Mission has been successful!");
+        cons.print(ansi.purple() + ansi.blackBackground() + "Mission has been successful!" + ansi.reset());
         sleep.sleep(500);
 
         save.saveEncryptedDouble(basePath + CURRENT_SAVE_PATH, currentFuel);
