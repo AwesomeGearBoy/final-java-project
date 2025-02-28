@@ -4,10 +4,6 @@ import java.awt.*;
 import java.io.*;
 import java.net.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
 /**
  * This class simplifies opening up a webpage from the browser by simply allowing you to type in String data with the link.
  */
@@ -31,29 +27,23 @@ public class WebControl {
         }
     }
 
-    public void openImage(String path, int WindowX, int WindowY) {
-        ImageIcon imageIcon = new ImageIcon(path);
-        JLabel label = new JLabel(imageIcon);
-        
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(WindowX, WindowY);
-        
-        frame.getContentPane().add(label, BorderLayout.CENTER);
-        
-        frame.setVisible(true);
-    }
-
-    public void openImage(String path) {
-        ImageIcon imageIcon = new ImageIcon(path);
-        JLabel label = new JLabel(imageIcon);
-        
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
-        
-        frame.getContentPane().add(label, BorderLayout.CENTER);
-        
-        frame.setVisible(true);
+    /**
+     * Opens a file in your project. Any file.
+     * @param filePath
+     */
+    public void openFile(String filePath) {
+        if (Desktop.isDesktopSupported()) {
+            Desktop desk = Desktop.getDesktop();
+            try {
+                File file = new File(filePath);
+                if (file.exists()) {
+                    desk.open(file);
+                } else {
+                    System.out.println("File not found: " + filePath);
+                }
+            } catch (IOException excp) {
+                excp.printStackTrace();
+            }
+        }
     }
 }
