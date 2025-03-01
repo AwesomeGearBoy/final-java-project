@@ -1,15 +1,13 @@
 package AwesomeGearBoy.lib;
 
-// TODO: Add descriptions and documentation to all methods, along with the class.
-// Can literally be copied and pasted.
-
 /**
  * <p>2-element structure that can be used to represent positions in 2D space or any other pair of numeric values.
  * <p> 
  * <p> 
  * <p>The code for this class in particular is not entirely my own, this classes code is taken and translated from 
  * Godot's C# class, Vector2.cs. Literally all processes in this class were ripped straight from there, but this class 
- * provides a very good way to represent a xy plane, as well as hold two values, x and y.
+ * provides a very good way to represent a xy plane, as well as hold two values, x and y. Most of the functionality is
+ * still here, with as little as possible lost. Use as much as needed.
  */
 public final class Vector2 {
     public float x;
