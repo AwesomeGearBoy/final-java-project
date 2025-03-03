@@ -6,7 +6,7 @@ package AwesomeGearBoy.lib;
  * <p> 
  * <p>The code for this class in particular is not entirely my own, this classes code is taken and translated from 
  * Godot's C# class, Vector2.cs. Literally all processes in this class were ripped straight from there, but this class 
- * provides a very good way to represent a xy plane, as well as hold two values, x and y. Most of the functionality is
+ * provides a very good way to represent an xy plane, as well as hold two values, x and y. Most of the functionality is
  * still here, with as little as possible lost. Use as much as needed.
  */
 public final class Vector2 {
@@ -782,7 +782,7 @@ public final class Vector2 {
     }
 
     /**
-     * Converts this Godot.Vector2 to a string with the given format.
+     * Converts this AwesomeGearBoy.lib.Vector2 to a string with the given format.
      * @param format
      * @return A string representation of this vector.
      */
